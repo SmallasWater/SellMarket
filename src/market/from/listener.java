@@ -10,7 +10,7 @@ import cn.nukkit.network.protocol.ModalFormResponsePacket;
 import market.events.PlayerBuyItemEvent;
 import market.events.PlayerSettingItemEvent;
 import market.events.PlayerUpperItemEvent;
-import market.load.sMarket;
+import market.sMarket;
 import market.player.iTypes;
 import market.player.pItems;
 import market.utils.Tools;

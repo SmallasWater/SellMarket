@@ -3,6 +3,7 @@ package market.load;
 import cn.nukkit.Player;
 import me.onebone.economyapi.EconomyAPI;
 import money.Money;
+import market.sMarket;
 
 public class loadMoney {
 
@@ -11,7 +12,7 @@ public class loadMoney {
 
     private int money = 0;
 
-    loadMoney(){
+    public loadMoney(){
         if(sMarket.getApi().getServer().getPluginManager().getPlugin("EconomyAPI") != null){
             money = ECONOMY_API;
         }else if(sMarket.getApi().getServer().getPluginManager().getPlugin("Money") != null){

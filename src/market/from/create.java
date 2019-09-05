@@ -7,7 +7,7 @@ import cn.nukkit.form.window.FormWindow;
 import cn.nukkit.form.window.FormWindowCustom;
 import cn.nukkit.form.window.FormWindowSimple;
 import cn.nukkit.item.Item;
-import market.load.sMarket;
+import market.sMarket;
 import market.player.iTypes;
 import market.player.pItems;
 import market.player.sType;
