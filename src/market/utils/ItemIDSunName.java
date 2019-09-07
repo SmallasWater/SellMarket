@@ -829,7 +829,7 @@ public enum ItemIDSunName {
     /**
      * 漏斗
      */
-    HOPPER("漏斗", 154, 0, "textures/blocks/hopper_top.png"),
+    HOPPER("漏斗", 410, 0, "textures/blocks/hopper_top.png"),
     /**
      * 石英块
      */
@@ -1222,6 +1222,134 @@ public enum ItemIDSunName {
      * 末地门2
      */
     END_GATEWAY("末地门2", 209, 0, "textures/blocks/end_gateway.png"),
+    /**
+     * 白色带釉陶瓦
+     */
+    WHITE_GLAZED("白色带釉陶瓦", 220, 2, "textures/blocks/glazed_terracotta_white.png"),
+    /**
+     * 灰色带釉陶瓦
+     */
+    GRAY_GLAZED("灰色带釉陶瓦", 227, 2, "textures/blocks/glazed_terracotta_gray.png"),
+    /**
+     * 淡灰色带釉陶瓦
+     */
+    SILVER_GLAZED("淡灰色带釉陶瓦", 228, 2, "textures/blocks/glazed_terracotta_silver.png"),
+    /**
+     * 黑色带釉陶瓦
+     */
+    OBSIDIAN_GLAZED("黑色带釉陶瓦", 235, 2, "textures/blocks/glowing_obsidian.png"),
+    /**
+     * 棕色带釉陶瓦
+     */
+    BROWN_GLAZED("棕色带釉陶瓦", 232, 2, "textures/blocks/glazed_terracotta_brown.png"),
+    /**
+     * 红色带釉陶瓦
+     */
+    RED_GLAZED("红色带釉陶瓦", 234, 2, "textures/blocks/glazed_terracotta_red.png"),
+    /**
+     * 橙色带釉陶瓦
+     */
+    ORANGE_GLAZED("橙色带釉陶瓦", 221, 2, "textures/blocks/glazed_terracotta_orange.png"),
+    /**
+     * 黄色带釉陶瓦
+     */
+    YELLOW_GLAZED("黄色带釉陶瓦", 224, 2, "textures/blocks/glazed_terracotta_yellow.png"),
+    /**
+     * 黄绿色带釉陶瓦
+     */
+    LIME_GLAZED("黄绿色带釉陶瓦", 225, 2, "textures/blocks/glazed_terracotta_lime.png"),
+    /**
+     * 绿色带釉陶瓦
+     */
+    GREEN_GLAZED("绿色带釉陶瓦", 233, 2, "textures/blocks/glazed_terracotta_green.png"),
+    /**
+     * 青色带釉陶瓦
+     */
+    CYAN_GLAZED("青色带釉陶瓦", 229, 2, "textures/blocks/glazed_terracotta_cyan.png"),
+    /**
+     * 淡蓝色带釉陶瓦
+     */
+    LBLUE_GLAZED("淡蓝色带釉陶瓦", 223, 2, "textures/blocks/glazed_terracotta_light_blue.png"),
+    /**
+     * 蓝色带釉陶瓦
+     */
+    BLUE_GLAZED("蓝色带釉陶瓦", 231, 2, "textures/blocks/glazed_terracotta_blue.png"),
+    /**
+     * 紫色带釉陶瓦
+     */
+    PURPLE_GLAZED("紫色带釉陶瓦", 219, 2, "textures/blocks/glazed_terracotta_purple.png"),
+    /**
+     * 品红色带釉陶瓦
+     */
+    MAGENTA_GLAZED("品红色带釉陶瓦", 222, 2, "textures/blocks/glazed_terracotta_magenta.png"),
+    /**
+     * 粉红色带釉陶瓦
+     */
+    PINK_GLAZED("粉红色带釉陶瓦", 226, 2, "textures/blocks/glazed_terracotta_pink.png"),
+    /**
+     * 白色玻璃
+     */
+    Glass_White("白色玻璃", 241, 0, "textures/blocks/glass_white.png"),
+    /**
+     * 橙色玻璃
+     */
+    Glass_Orange("橙色玻璃", 241, 1, "textures/blocks/glass_orange.png"),
+    /**
+     * 品红色玻璃
+     */
+    Glass_Magenta("品红色玻璃", 241, 2, "textures/blocks/glass_magenta.png"),
+    /**
+     * 淡蓝色玻璃
+     */
+    Glass_LBlue("淡蓝色玻璃", 241, 3, "textures/blocks/glass_light_blue.png"),
+    /**
+     * 黄色玻璃
+     */
+    Glass_Yellow("黄色玻璃", 241, 4, "textures/blocks/glass_yellow.png"),
+    /**
+     * 黄绿色玻璃
+     */
+    Glass_Lime("黄绿色玻璃", 241, 5, "textures/blocks/glass_lime.png"),
+    /**
+     * 粉红色玻璃
+     */
+    Glass_Pink("粉红色玻璃", 241, 6, "textures/blocks/glass_pink.png"),
+    /**
+     * 灰色玻璃
+     */
+    Glass_Gray("灰色玻璃", 241, 7, "textures/blocks/glass_gray.png"),
+    /**
+     * 淡灰色玻璃
+     */
+    Glass_Silver("淡灰色玻璃", 241, 8, "textures/blocks/glass_silver.png"),
+    /**
+     * 青色玻璃
+     */
+    Glass_Cyan("青色玻璃", 241, 9, "textures/blocks/glass_cyan.png"),
+    /**
+     * 紫色玻璃
+     */
+    Glass_Purple("紫色玻璃", 241, 10, "textures/blocks/glass_purple.png"),
+    /**
+     * 蓝色玻璃
+     */
+    Glass_Blue("蓝色玻璃", 241, 11, "textures/blocks/glass_blue.png"),
+    /**
+     * 棕色玻璃
+     */
+    Glass_Brown("棕色玻璃", 241, 12, "textures/blocks/glass_brown.png"),
+    /**
+     * 绿色玻璃
+     */
+    Glass_Green("绿色玻璃", 241, 13, "textures/blocks/glass_green.png"),
+    /**
+     * 红色玻璃
+     */
+    Glass_RED("红色玻璃", 241, 14, "textures/blocks/glass_red.png"),
+    /**
+     * 黑色玻璃
+     */
+    Glass_Black("黑色玻璃", 241, 15, "textures/blocks/glass_black.png"),
     /**
      * 铁锹
      */
@@ -1821,7 +1949,7 @@ public enum ItemIDSunName {
     /**
      * 史蒂夫头
      */
-    STEVE_SKULL("史蒂夫头", 397, 3, "textures/blocks/observer_front.png"),
+    STEVE_SKULL("史蒂夫头", 397, 3, "textures/ui/Friend2.png"),
     /**
      * 苦力怕头
      */
@@ -1845,7 +1973,7 @@ public enum ItemIDSunName {
     /**
      * 附魔书
      */
-    ENCHANTED_BOOK("附魔书", 403, 0, "textures/items/book_writable.png"),
+    ENCHANTED_BOOK("附魔书", 403, 0, "textures/items/book_enchanted.png"),
     /**
      * 比较器
      */
@@ -1871,9 +1999,13 @@ public enum ItemIDSunName {
      */
     PRISMARINE_SHARD("海晶碎片", 409, 0, "textures/items/prismarine_shard.png"),
     /**
-     * 海晶灯粉
+     * 干海带
      */
-    PRISMARINE_CRYSTALS("海晶灯粉", 410, 0, "textures/items/prismarine_crystals.png"),
+    DRIED_KELP("干海带", 464, 0, "textures/items/dried_kelp.png"),
+    /**
+     * 海带
+     */
+    KELP("海带", 335, 0, "textures/items/kelp.png"),
     /**
      * 生兔子肉
      */
@@ -1921,7 +2053,7 @@ public enum ItemIDSunName {
     /**
      * 命令方块矿车
      */
-    COMMAND_BLOCK_MINECART("命令方块矿车", 422, 0, "textures/items/minecart_command_block.png"),
+    Prismarine("海晶砂砾", 422, 0, "textures/items/prismarine_crystals.png"),
     /**
      * 生羊肉
      */
@@ -1930,6 +2062,10 @@ public enum ItemIDSunName {
      * 熟羊肉
      */
     COOKED_MUTTON("熟羊肉", 424, 0, "textures/items/mutton_cooked.png"),
+    /**
+     * 末影水晶
+     */
+    mysj("末影水晶", 426, 0, "textures/items/end_crystal.png"),
     /**
      * 云杉木门
      */
@@ -1977,7 +2113,33 @@ public enum ItemIDSunName {
     /**
      * 潜匿之壳
      */
-    BIRCH_BOAT("潜匿之壳", 445, 0, "textures/items/shulker_shell.png");
+    BIRCH_BOAT("潜匿之壳", 445, 0, "textures/items/shulker_shell.png"),
+    /**
+     * 三叉戟
+     */
+    no_death("不死图腾", 450, 0, "textures/items/totem.png"),
+    /**
+     * 三叉戟
+     */
+    THREE_WEAPON("三叉戟", 455, 0, "textures/items/trident.png"),
+    /**
+     * 鹦鹉螺壳
+     */
+    YINGWU("鹦鹉螺壳", 465, 0, "textures/items/nautilus.png"),
+    /**
+     * 附魔金苹果
+     */
+    ENCHANT_GOLD_APPLE("附魔金苹果", 466, 0, "textures/items/apple_golden.png"),
+    /**
+     * 海洋之心
+     */
+    SEA_HEART("海洋之心", 467, 0, "textures/items/heartofthesea_closed.png"),
+
+    /**
+     * 三叉戟
+     */
+    TURTLE_HELMET("海龟壳", 469, 0, "textures/items/turtle_helmet.png");
+
     private int ID, Damage;
     private String Name, Path;
     private static final HashMap<String, Map<String, Object>> NAME_MAP = new HashMap<>();

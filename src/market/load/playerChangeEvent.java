@@ -14,7 +14,6 @@ import market.events.PlayerSettingItemEvent;
 import market.events.PlayerUpperItemEvent;
 import market.player.iTypes;
 import market.player.pItems;
-import market.player.sType;
 import market.utils.ItemIDSunName;
 import market.sMarket;
 import java.io.File;
@@ -26,11 +25,11 @@ public class playerChangeEvent implements Listener {
         Player player = event.getPlayer();
         File file = sMarket.getApi().getPlayerFile(player.getName());
         if(!file.exists()){
-            sMarket.getApi().saveResource("pData.yml","/Players/"+player.getName()+".yml",false);
             Config config = new Config(file,Config.YAML);
-
+            pItems items = new pItems(player.getName(),config);
+            items.save();
             player.awardAchievement("SellMarket");
-            sMarket.playerItems.put(player.getName(),new pItems(player.getName(),config));
+            sMarket.playerItems.put(player.getName(),items);
         }
     }
     @EventHandler
@@ -109,12 +108,12 @@ public class playerChangeEvent implements Listener {
         iTypes clicks = sMarket.clickItem.get(player);
         player.awardAchievement("setItem");
         pItems items = pItems.getInstance(player.getName());
-        sType type = types.type;
+        String type = types.type;
         types.setType(clicks.type);
         iTypes old = items.inArray(clicks);
         if(old != null){
             if(old.money != types.money){
-                if(types.money > sMarket.getApi().getMaxMoney() || types.money < sMarket.getApi().getMinMoney()){
+                if(types.money > sMarket.getApi().getMaxMoney() && types.money < sMarket.getApi().getMinMoney()){
                     player.sendMessage(sMarket.PLUGIN_NAME+"§e"+"§a"+
                             ItemIDSunName.getIDByName(types.getItem())+"§c的单价由不能超过"+sMarket.getApi().getMaxMoney()+"或 小于"+sMarket.getApi().getMinMoney());
                     return;
@@ -138,14 +137,14 @@ public class playerChangeEvent implements Listener {
                 Server.getInstance().getPluginManager().callEvent(event1);
             }
 
-            if(old.type != type){
+            if(!old.type.equals(type)){
                 if(items.getSellItems(type).size() == sMarket.getApi().getMaxCount()){
                     player.sendMessage(sMarket.PLUGIN_NAME+"§c 上架数量不能超过"+sMarket.getApi().getMaxCount()+"个");
                     return;
                 }
                 player.sendMessage(sMarket.PLUGIN_NAME+"§e"+"§a"+
                         ItemIDSunName.getIDByName(types.getItem())+"§d的分类修改为: "
-                        +type.getName());
+                        +type);
                 int count = old.getCount();
                 items.removeSellItem(old);
                 types.setCount(count);

@@ -12,7 +12,6 @@ import market.load.loadMoney;
 import market.load.playerChangeEvent;
 import market.player.iTypes;
 import market.player.pItems;
-import market.player.sType;
 import market.utils.Tools;
 import market.from.*;
 import market.utils.banItem;
@@ -42,11 +41,13 @@ public class sMarket extends PluginBase {
 
     public static LinkedHashMap<Player, iTypes> clickItem = new LinkedHashMap<>();
 
-    public static LinkedHashMap<Player, sType> clickPos = new LinkedHashMap<>();
+    public static LinkedHashMap<Player, String> clickPos = new LinkedHashMap<>();
 
     public static LinkedHashMap<Player,LinkedList<iTypes>> seekItem = new LinkedHashMap<>();
 
     public static LinkedHashMap<Player, seekSetting> seekSetting = new LinkedHashMap<>();
+
+    public static LinkedHashMap<String,String> sType = new LinkedHashMap<>();
 
     public static loadMoney money;
 
@@ -65,14 +66,13 @@ public class sMarket extends PluginBase {
             }
         }
         this.config = getConfig();
+        sType = Tools.getType();
         this.black = new Config(this.getDataFolder()+"/blackItems.yml",Config.YAML);
         //缓存
         this.getLogger().info(PLUGIN_NAME+"初始化..玩家商店");
 
         long t1 = System.currentTimeMillis();
-
         money = new loadMoney();
-
         playerItems = Tools.getPlayerConfigs();
 
         long t2 = System.currentTimeMillis();
@@ -133,6 +133,10 @@ public class sMarket extends PluginBase {
                     case "添加":
                     case "add":
                         if(sender instanceof Player){
+                            if(((Player) sender).getGamemode() == 1 && !sender.isOp()){
+                                sender.sendMessage(PLUGIN_NAME+"§c创造模式无法上架物品");
+                                return true;
+                            }
                             banItem item = new banItem(((Player) sender).getInventory().getItemInHand());
                             if(item.getItem().getId() != 0){
                                 if(Tools.inArray(item,banItems)){

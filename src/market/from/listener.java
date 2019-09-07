@@ -13,6 +13,7 @@ import market.events.PlayerUpperItemEvent;
 import market.sMarket;
 import market.player.iTypes;
 import market.player.pItems;
+import market.utils.ItemIDSunName;
 import market.utils.Tools;
 import market.utils.seekSetting;
 
@@ -162,6 +163,11 @@ public class listener implements Listener {
                             d = Double.parseDouble((String) datas[3]);
                         }catch (Exception e){
                             player.sendMessage(sMarket.PLUGIN_NAME+"§c请输入正确的价格!!");
+                            return;
+                        }
+                        if(d > sMarket.getApi().getMaxMoney() && d < sMarket.getApi().getMinMoney()){
+                            player.sendMessage(sMarket.PLUGIN_NAME+"§e"+"§a"+
+                                    ItemIDSunName.getIDByName(click)+"§c的单价由不能超过"+sMarket.getApi().getMaxMoney()+"或 小于"+sMarket.getApi().getMinMoney());
                             return;
                         }
                         int count = (int)(double) datas[4];

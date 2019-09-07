@@ -8,7 +8,6 @@ import com.google.gson.GsonBuilder;
 import market.sMarket;
 import market.player.iTypes;
 import market.player.pItems;
-import market.player.sType;
 
 import java.io.File;
 import java.util.*;
@@ -60,6 +59,31 @@ public class Tools {
         return stringBuilder.toString();
     }
 
+    public static LinkedHashMap<String,String> getType(){
+        LinkedHashMap<String,String> linkedHashMap = new LinkedHashMap<>();
+        Config config = sMarket.getApi().config;
+        Map map = (Map) config.get("自定义分类");
+        if(map != null){
+            for(Object o:map.keySet()){
+                if(o instanceof String){
+                    Object get = map.get(o);
+                    if(get instanceof String){
+                        linkedHashMap.put((String) o,(String) get);
+                    }
+                }
+            }
+        }else{
+            linkedHashMap.put("方块","textures/blocks/brick");
+            linkedHashMap.put("工具","textures/items/diamond_pickaxe");
+            linkedHashMap.put("食物","textures/items/bread");
+            linkedHashMap.put("其他","textures/items/bread");
+            config.set("自定义分类",linkedHashMap);
+            config.save();
+        }
+
+        return linkedHashMap;
+    }
+
     public static LinkedHashMap<String, pItems> getPlayerConfigs(){
         File file = new File(sMarket.getApi().getDataFolder()+"/Players");
         LinkedHashMap<String,pItems> spItemsLinkedHashMap = new LinkedHashMap<>();
@@ -98,7 +122,7 @@ public class Tools {
     }
 
 
-    public static LinkedList<iTypes> getItemsByType(sType type){
+    public static LinkedList<iTypes> getItemsByType(String type){
         LinkedList<iTypes> list = new LinkedList<>();
         for (iTypes item:getItemsAll()){
             if(item.getType() == type){
@@ -145,15 +169,15 @@ public class Tools {
         //之前的
     }
 
-    public static sType getTypeByInt(int i){
+    public static String getTypeByInt(int i){
         int a = 0;
-        for(sType t:sType.values()){
+        for(String t:sMarket.sType.keySet()){
             if(a == i){
                 return t;
             }
             a++;
         }
-        return sType.Block;
+        return Tools.toList(sMarket.sType.keySet().toArray()).get(0);
     }
 
 
@@ -179,12 +203,56 @@ public class Tools {
                     items.add(item);
                 }
             }else if(type == 4){
-                if(item.getMoney() == Double.parseDouble(seek)){
-                    items.add(item);
+                if(seek.split("-").length > 1){
+                    double min = Double.parseDouble(seek.split("-")[0].trim());
+                    double max = Double.parseDouble(seek.split("-")[1].trim());
+                    if(item.getMoney() >= min && item.getMoney() < max){
+                        items.add(item);
+                    }
+                }else if(seek.split(">").length > 1){
+                    double max = Double.parseDouble(seek.split(">")[1].trim());
+                    if(item.getMoney() > max){
+                        items.add(item);
+                    }
+                }else if(seek.split("<").length > 1){
+                    double max = Double.parseDouble(seek.split("<")[1].trim());
+                    if(item.getMoney() < max){
+                        items.add(item);
+                    }
+                } else{
+                    try {
+                        if(item.getMoney() == Double.parseDouble(seek)){
+                            items.add(item);
+                        }
+                    }catch (Exception e){
+                        break;
+                    }
                 }
             }else if(type == 5){
-                if(item.getCount() == Integer.parseInt(seek)){
-                    items.add(item);
+                if(seek.split("-").length > 1){
+                    int min = Integer.parseInt(seek.split("-")[0].trim());
+                    int max = Integer.parseInt(seek.split("-")[1].trim());
+                    if(item.getCount() >= min && item.getCount() < max){
+                        items.add(item);
+                    }
+                }else if(seek.split(">").length > 1){
+                    int max = Integer.parseInt(seek.split(">")[1].trim());
+                    if(item.getCount() > max){
+                        items.add(item);
+                    }
+                }else if(seek.split("<").length > 1){
+                    int max = Integer.parseInt(seek.split("<")[1].trim());
+                    if(item.getCount() < max){
+                        items.add(item);
+                    }
+                } else{
+                    try {
+                        if(item.getCount() == Integer.parseInt(seek)){
+                            items.add(item);
+                        }
+                    }catch (Exception e){
+                        break;
+                    }
                 }
             }
         }
@@ -203,15 +271,25 @@ public class Tools {
         return items;
     }
 
-    public static int getIntByType(sType type){
+    public static int getIntByType(String type){
         int i = 0;
-        for(sType type1:sType.values()){
-            if(type1 == type){
+        for(String type1:sMarket.sType.keySet()){
+            if(type1.equals(type)){
                 return i;
             }
             i++;
         }
         return 0;
+    }
+
+    public static LinkedList<String> toList(Object[] strings){
+        LinkedList<String> strings1 = new LinkedList<>();
+        for (Object o:strings){
+            if(o instanceof String){
+                strings1.add((String) o);
+            }
+        }
+        return strings1;
     }
 
 

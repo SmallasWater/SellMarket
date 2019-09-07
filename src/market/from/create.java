@@ -10,7 +10,6 @@ import cn.nukkit.item.Item;
 import market.sMarket;
 import market.player.iTypes;
 import market.player.pItems;
-import market.player.sType;
 import market.utils.ItemIDSunName;
 import market.utils.Tools;
 import market.utils.banItem;
@@ -86,14 +85,7 @@ public class create {
                   "§l§e商品简介: §r"+item.getMessage()+"\n\n"+
                   "§l§e商品单价: §c"+(sMarket.money.getMonetaryUnit()+item.getMoney())+"\n";
         custom.addElement(new ElementLabel(s));
-        custom.addElement(new ElementDropdown("修改分类",new LinkedList<String>(){
-            {
-                add("方块 (干垃圾)");
-                add("工具 (可回收垃圾)");
-                add("食物 (湿垃圾)");
-                add("其他 (有害垃圾)");
-            }
-        },Tools.getIntByType(item.type)));
+        custom.addElement(new ElementDropdown("修改分类",Tools.toList(sMarket.sType.keySet().toArray()),Tools.getIntByType(item.type)));
         custom.addElement(new ElementInput("显示名称","请修改名称",item.getName()));
         custom.addElement(new ElementInput("修改简介","请输入内容",item.message));
         custom.addElement(new ElementInput("修改单价","请输入数值",String.valueOf(item.money)));
@@ -122,7 +114,7 @@ public class create {
             simple.addButton(getButton(item));
         }
         sMarket.seekItem.put(player,seekItems);
-        simple.setContent("共查找到: "+simple.getButtons().size()+" 个  索引设置: "+Tools.getStringBySeekSetting(setting.type));
+        simple.setContent("共查找到: "+simple.getButtons().size()+" 个  索引设置: "+Tools.getStringBySeekSetting(setting.type)+" §7索引内容: "+setting.message);
         send(player,simple,SEEK_MENU);
     }
 
@@ -190,18 +182,17 @@ public class create {
             builder.append(" §c暂无").append("\n");
         }
         builder.append("\n§l§a货物总数: §e").append(Tools.getItemsAll().size()).append(" §a个");
-        builder.append("\n§l§a方块类: §e").append(Tools.getItemsByType(sType.Block).size()).append(" §a个");
-        builder.append("\n§l§a工具类: §e").append(Tools.getItemsByType(sType.Tools).size()).append(" §a个");
-        builder.append("\n§l§a食物类: §e").append(Tools.getItemsByType(sType.Food).size()).append(" §a个");
-        builder.append("\n§l§a其他: §e").append(Tools.getItemsByType(sType.Author).size()).append(" §a个");
+        for(String type:sMarket.sType.keySet()){
+            builder.append("\n§l§a").append(type).append("类: §e").append(Tools.getItemsByType(type).size()).append(" §a个");
+        }
         simple.setContent(builder.toString());
         send(player,simple,MESSAGE);
     }
 
     /** 商品列表(类型)*/
     static void sendTypeShow(Player player){
-        sType t = sMarket.clickPos.get(player);
-        FormWindowSimple simple = new FormWindowSimple(sMarket.PLUGIN_NAME+"--市场("+t.getName()+")","");
+        String t = sMarket.clickPos.get(player);
+        FormWindowSimple simple = new FormWindowSimple(sMarket.PLUGIN_NAME+"--市场("+t+")","");
         for(iTypes items: Tools.getItemsByType(t)){
             simple.addButton(getButton(items));
         }
@@ -234,8 +225,8 @@ public class create {
     /** 商品分类*/
     static void sendTypes(Player player){
         FormWindowSimple simple = new FormWindowSimple(sMarket.PLUGIN_NAME+"--分类","");
-        for(sType type:sType.values()){
-            simple.addButton(new ElementButton(type.getName(),new ElementButtonImageData("path",type.getImage())));
+        for(String type:sMarket.sType.keySet()){
+            simple.addButton(new ElementButton(type,new ElementButtonImageData("path",sMarket.sType.get(type))));
         }
         send(player,simple,TYPES);
     }
@@ -252,14 +243,7 @@ public class create {
         if(hand.isTool() || hand.isArmor()){
             diy = 1;
         }
-        custom.addElement(new ElementDropdown("§l§e物品分类",new LinkedList<String>(){
-            {
-                add("方块 (干垃圾)");
-                add("工具 (可回收垃圾)");
-                add("食物 (湿垃圾)");
-                add("其他 (有害垃圾)");
-            }
-        },diy));
+        custom.addElement(new ElementDropdown("§l§e物品分类",Tools.toList(sMarket.sType.keySet().toArray()),diy));
         custom.addElement(new ElementInput("§l§e请设置简介","请输入内容","很便宜哦"));
         custom.addElement(new ElementInput("§l§e请设置单价","请输入数值","10.0"));
         LinkedList<String> strings = new LinkedList<>();

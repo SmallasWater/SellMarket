@@ -13,7 +13,7 @@ public class iTypes implements Cloneable{
 
     public String master;
 
-    public sType type;
+    public String type;
 
     public double money;
 
@@ -27,19 +27,19 @@ public class iTypes implements Cloneable{
 
     public String message;
 
-    public iTypes(String master,sType type,String id,int count){
+    public iTypes(String master,String type,String id,int count){
        this(master,type,id,count,10D);
     }
 
-    public iTypes(String master,sType type,String id,int count,double money){
+    public iTypes(String master,String type,String id,int count,double money){
         this(master,type,id,count,money,"");
     }
 
-    public iTypes(String master,sType type,String id,int count,double money,String tag){
+    public iTypes(String master,String type,String id,int count,double money,String tag){
         this(master,type,id,count,money,tag,"欢迎购买");
     }
 
-    public iTypes(String master,sType type,String id,int count,double money,String tag,String message,String showName){
+    public iTypes(String master,String type,String id,int count,double money,String tag,String message,String showName){
         this.count = count;
         this.id = id;
         this.money = money;
@@ -51,7 +51,7 @@ public class iTypes implements Cloneable{
 
     }
 
-    public iTypes(String master,sType type,String id,int count,double money,String tag,String message){
+    public iTypes(String master,String type,String id,int count,double money,String tag,String message){
         this.count = count;
         this.id = id;
         this.money = money;
@@ -66,11 +66,11 @@ public class iTypes implements Cloneable{
         this.showName = showName;
     }
 
-    public sType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(sType type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -151,7 +151,7 @@ public class iTypes implements Cloneable{
      *    nbt:
      *    message:
      *    one-Money*/
-    static  iTypes toType(String master, sType type, String id, Map map){
+    static  iTypes toType(String master, String type, String id, Map map){
         int count = 0;
         String nbt = null;
         double money = 10D;
@@ -197,7 +197,7 @@ public class iTypes implements Cloneable{
 
     @Override
     public String toString() {
-        return "{master:"+master+"id:"+id+"type:"+type.getName()+"count: "+count+"money:"+money+"}";
+        return "{master:"+master+"id:"+id+"type:"+type+"count: "+count+"money:"+money+"}";
     }
 
     public String getName(){

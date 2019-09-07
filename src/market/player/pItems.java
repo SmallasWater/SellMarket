@@ -14,7 +14,7 @@ public class pItems {
 
     private Config config;
 
-    private LinkedHashMap<sType, LinkedList<iTypes>> sellItems = new LinkedHashMap<>();
+    private LinkedHashMap<String, LinkedList<iTypes>> sellItems = new LinkedHashMap<>();
 
     public static pItems getInstance(String player){
         return sMarket.playerItems.get(player);
@@ -33,9 +33,9 @@ public class pItems {
 
     private void init(){
         LinkedList<iTypes> types;
-        for(sType type:sType.values()){
+        for(String type:sMarket.sType.keySet()){
             types = new LinkedList<>();
-            Object map = config.get(type.getName());
+            Object map = config.get(type);
             if(map instanceof Map){
                 if(((Map) map).size() > 0){
                     for (Object o:((Map) map).keySet()){
@@ -56,7 +56,7 @@ public class pItems {
         return player;
     }
 
-    public LinkedList<iTypes> getSellItems(sType type) {
+    public LinkedList<iTypes> getSellItems(String type) {
         if(!sellItems.containsKey(type)) {
             return null;
         }
@@ -64,10 +64,10 @@ public class pItems {
     }
 
     public void save(){
-        for(sType type:sType.values()){
+        for(String type:sMarket.sType.keySet()){
             LinkedList<iTypes> types = getSellItems(type);
             if(types != null){
-                config.set(type.getName(),iTypes.toSave(types));
+                config.set(type,iTypes.toSave(types));
             }
         }
         config.save();
@@ -123,7 +123,7 @@ public class pItems {
 
     public LinkedList<iTypes> getAllItems(){
         LinkedList<iTypes> types = new LinkedList<>();
-        for(sType t:sType.values()){
+        for(String t:sMarket.sType.keySet()){
             if(sellItems.containsKey(t)){
                 types.addAll(sellItems.get(t));
             }
