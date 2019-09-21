@@ -66,6 +66,7 @@ public class create {
         }
     };
 
+
     /** 主页菜单*/
     public static void sendMenu(Player player){
         FormWindowSimple simple = new FormWindowSimple(sMarket.PLUGIN_NAME+"--主页",

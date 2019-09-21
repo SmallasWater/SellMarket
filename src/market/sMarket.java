@@ -5,6 +5,7 @@ import cn.nukkit.Player;
 import cn.nukkit.Server;
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
+import cn.nukkit.form.window.FormWindow;
 import cn.nukkit.item.Item;
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.Config;
@@ -48,6 +49,7 @@ public class sMarket extends PluginBase {
     public static LinkedHashMap<Player, seekSetting> seekSetting = new LinkedHashMap<>();
 
     public static LinkedHashMap<String,String> sType = new LinkedHashMap<>();
+
 
     public static loadMoney money;
 
@@ -93,6 +95,10 @@ public class sMarket extends PluginBase {
 
     }
 
+    public int getCountMax(){
+        return this.config.getInt("物品数量最大值",120);
+    }
+
     public double getMinMoney(){
         return (double) this.config.getInt("单价最小值");
     }
@@ -120,8 +126,7 @@ public class sMarket extends PluginBase {
         if("sm".equals(command.getName()) || "交易".equals(command.getName())){
             if(args.length > 0){
                 switch (args[0]){
-                    case "help":
-                    case "帮助":
+                    case "help": case "帮助":
                         sender.sendMessage("§l§6=========="+PLUGIN_NAME+"§6==========");
                         sender.sendMessage("§b/sm §ahelp §7查看帮助");
                         sender.sendMessage("§b/sm §aadd §7添加手持物品到市场");
@@ -130,8 +135,7 @@ public class sMarket extends PluginBase {
                         }
                         sender.sendMessage("§l§6================================");
                         break;
-                    case "添加":
-                    case "add":
+                    case "添加": case "add":
                         if(sender instanceof Player){
                             if(((Player) sender).getGamemode() == 1 && !sender.isOp()){
                                 sender.sendMessage(PLUGIN_NAME+"§c创造模式无法上架物品");
@@ -153,12 +157,7 @@ public class sMarket extends PluginBase {
                             sender.sendMessage("请在游戏内执行");
                         }
                         break;
-                    case "黑名单":
-                    case "black":
-                    case "ab":
-                    case "添加黑名单":
-                    case "rb":
-                    case "移除黑名单":
+                    case "黑名单": case "black": case "ab": case "添加黑名单": case "rb": case "移除黑名单":
                         if(sender instanceof Player){
                             if(!sender.isOp()){
                                 return false;

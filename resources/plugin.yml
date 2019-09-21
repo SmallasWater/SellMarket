@@ -1,14 +1,13 @@
 name: SellMarket
-main: market.load.sMarket
-version: 1.0.3
-api-version: 1.0.8
+main: market.sMarket
+version: 1.2.1
+api: "1.0.8"
 author: 若水
 load: POSTWORLD
-depend:
-  - "EconomyAPI"
 commands:
   sm:
     usage: /sm 帮助
-  交易:
     description: "交易市场"
-    usage: /交易 帮助
+    aliases:
+      - 交易
+      - 黑市

@@ -7,13 +7,14 @@ import cn.nukkit.event.player.PlayerEvent;
 import market.player.iTypes;
 
 public class PlayerUpperItemEvent extends PlayerEvent implements Cancellable {
+    
     private static final HandlerList HANDLER_LIST = new HandlerList();
 
     public static HandlerList getHandlers() {
         return HANDLER_LIST;
     }
 
-    public iTypes types;
+    private iTypes types;
 
     public PlayerUpperItemEvent(Player player, iTypes types){
         this.player = player;

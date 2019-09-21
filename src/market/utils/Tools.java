@@ -76,12 +76,16 @@ public class Tools {
             linkedHashMap.put("方块","textures/blocks/brick");
             linkedHashMap.put("工具","textures/items/diamond_pickaxe");
             linkedHashMap.put("食物","textures/items/bread");
-            linkedHashMap.put("其他","textures/items/bread");
+            linkedHashMap.put("其他","textures/ui/inventory_icon");
             config.set("自定义分类",linkedHashMap);
             config.save();
         }
 
         return linkedHashMap;
+    }
+
+    private void sendMenuById(int id){
+
     }
 
     public static LinkedHashMap<String, pItems> getPlayerConfigs(){
@@ -125,7 +129,7 @@ public class Tools {
     public static LinkedList<iTypes> getItemsByType(String type){
         LinkedList<iTypes> list = new LinkedList<>();
         for (iTypes item:getItemsAll()){
-            if(item.getType() == type){
+            if(item.getType().equals(type)){
                 list.add(item);
             }
         }

@@ -2,5 +2,13 @@
 自定义公告: "欢迎使用"
 单价最大值: 100
 单价最小值: 10
+物品数量最大值: 256
+# 请不要随意修改，否则玩家上架的
+# 物品将不会显示
+自定义分类:
+  方块: "textures/blocks/brick"
+  工具: "textures/items/diamond_pickaxe"
+  食物: "textures/items/bread"
+  其他: "textures/ui/inventory_icon"
 
 

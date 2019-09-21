@@ -406,6 +406,10 @@ public enum ItemIDSunName {
      */
     DOUBLE_STONE_BRICK_STEPS("双石砖台阶", 43, 5, "textures/blocks/stonebrick.png"),
     /**
+     * 石砖
+     */
+    STONE_BRICK("石砖", 98, 0, "textures/blocks/stonebrick.png"),
+    /**
      * 双石英台阶
      */
     DOUBLE_QUARTZ_STEPS("双石英台阶", 43, 6, "textures/blocks/nether_brick.png"),
@@ -444,7 +448,7 @@ public enum ItemIDSunName {
     /**
      * 砖
      */
-    BRICK("砖", 45, 0, "textures/blocks/brick.png"),
+    BRICK_("砖", 45, 0, "textures/blocks/brick.png"),
     /**
      * TNT
      */
@@ -1197,7 +1201,7 @@ public enum ItemIDSunName {
     /**
      * 合唱花
      */
-    CHORUS_FLOWER("合唱花", 200, 0, "textures/blocks/chorus_flower.png"),
+    CHORUS_FLOWER("共鸣花", 200, 0, "textures/blocks/chorus_flower.png"),
     /**
      * 紫珀方块
      */
@@ -1217,7 +1221,7 @@ public enum ItemIDSunName {
     /**
      * 末地棒
      */
-    GRASS_PATH("末地棒", 208, 0, "textures/blocks/grass_path_side.png"),
+    GRASS_PATH("末地棒", 208, 0, "textures/blocks/end_rod.png"),
     /**
      * 末地门2
      */
@@ -1286,6 +1290,10 @@ public enum ItemIDSunName {
      * 粉红色带釉陶瓦
      */
     PINK_GLAZED("粉红色带釉陶瓦", 226, 2, "textures/blocks/glazed_terracotta_pink.png"),
+    /**
+     * 共鸣植物
+     */
+    CHORUS_PLANT("共鸣植物", 240, 0, "textures/blocks/chorus_plant.png"),
     /**
      * 白色玻璃
      */
@@ -1662,6 +1670,10 @@ public enum ItemIDSunName {
      * 粘土球
      */
     CLAY_BALL("粘土球", 337, 0, "textures/items/clay_ball.png"),
+    /**
+     * 砖块
+     */
+    BRICK("砖块", 336, 0, "textures/items/clay_ball.png"),
     /**
      * 甘蔗
      */
@@ -2115,7 +2127,7 @@ public enum ItemIDSunName {
      */
     BIRCH_BOAT("潜匿之壳", 445, 0, "textures/items/shulker_shell.png"),
     /**
-     * 三叉戟
+     * 不死图腾
      */
     no_death("不死图腾", 450, 0, "textures/items/totem.png"),
     /**
@@ -2123,6 +2135,11 @@ public enum ItemIDSunName {
      */
     THREE_WEAPON("三叉戟", 455, 0, "textures/items/trident.png"),
     /**
+     * 甜菜根
+     */
+    BEET("甜菜根", 457, 0, "textures/items/beetroot.png"),
+    /**
+     *
      * 鹦鹉螺壳
      */
     YINGWU("鹦鹉螺壳", 465, 0, "textures/items/nautilus.png"),
@@ -2136,9 +2153,17 @@ public enum ItemIDSunName {
     SEA_HEART("海洋之心", 467, 0, "textures/items/heartofthesea_closed.png"),
 
     /**
-     * 三叉戟
+     * 海龟壳
      */
-    TURTLE_HELMET("海龟壳", 469, 0, "textures/items/turtle_helmet.png");
+    TURTLE_HELMET("海龟壳", 469, 0, "textures/items/turtle_helmet.png"),
+    /**
+     * 幻影薄膜
+     */
+    PHANTOM("幻影薄膜", 470, 0, "textures/items/phantom_membrane.png"),
+    /**
+     * 甜梅
+     */
+    SWEET_BERRIES("甜梅", 477, 0, "textures/items/sweet_berries.png");
 
     private int ID, Damage;
     private String Name, Path;

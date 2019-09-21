@@ -36,7 +36,7 @@ public class playerChangeEvent implements Listener {
     public void onUpData(PlayerUpperItemEvent event){
         Player player = event.getPlayer();
         pItems items = pItems.getInstance(player.getName());
-        iTypes newI = event.types;
+        iTypes newI = event.getTypes();
         Item newItem = newI.getItem();
         iTypes old = items.inArray(newI);
         if(old != null){
@@ -47,14 +47,22 @@ public class playerChangeEvent implements Listener {
             if(old.money != newI.money){
                 if(newI.money > sMarket.getApi().getMaxMoney() || newI.money < sMarket.getApi().getMinMoney()){
                     player.sendMessage(sMarket.PLUGIN_NAME+"§e"+"§a"+
-                            ItemIDSunName.getIDByName(newI.getItem())+"§c的单价由不能超过"+sMarket.getApi().getMaxMoney()+"或 小于"+sMarket.getApi().getMinMoney());
+                            ItemIDSunName.getIDByName(newI.getItem())+"§c的单价不能超过"+sMarket.getApi().getMaxMoney()+"或 小于"+sMarket.getApi().getMinMoney());
                     return;
                 }
                 player.sendMessage(sMarket.PLUGIN_NAME+"§e"+"§a"+
                         ItemIDSunName.getIDByName(newI.getItem())+"§7的单价由§a"+old.money+"§b->§a"+newI.money);
             }
-            player.sendMessage(sMarket.PLUGIN_NAME+"§e"+"§a"+
-                    ItemIDSunName.getIDByName(newI.getItem())+"§7的数量由§a"+old.count+"§b->§a"+(old.count+newI.count));
+            if(old.count + newI.count > sMarket.getApi().getCountMax()){
+                player.sendMessage(sMarket.PLUGIN_NAME+"§e"+"§a"+
+                        ItemIDSunName.getIDByName(newI.getItem())+"§c的数量由不能超过§a "+sMarket.getApi().getCountMax()+" §c个  当前数量: §6"+old.count);
+                return;
+
+            }else{
+                player.sendMessage(sMarket.PLUGIN_NAME+"§e"+"§a"+
+                        ItemIDSunName.getIDByName(newI.getItem())+"§7的数量由§a"+old.count+"§b->§a"+(old.count+newI.count));
+            }
+
         }else{
             if(items.getSellItems(newI.type).size() >= sMarket.getApi().getMaxCount()){
                 player.sendMessage(sMarket.PLUGIN_NAME+"§e"+"§c上架商品不能超过"+sMarket.getApi().getMaxCount()+"个");
@@ -113,7 +121,7 @@ public class playerChangeEvent implements Listener {
         iTypes old = items.inArray(clicks);
         if(old != null){
             if(old.money != types.money){
-                if(types.money > sMarket.getApi().getMaxMoney() && types.money < sMarket.getApi().getMinMoney()){
+                if(types.money > sMarket.getApi().getMaxMoney() || types.money < sMarket.getApi().getMinMoney()){
                     player.sendMessage(sMarket.PLUGIN_NAME+"§e"+"§a"+
                             ItemIDSunName.getIDByName(types.getItem())+"§c的单价由不能超过"+sMarket.getApi().getMaxMoney()+"或 小于"+sMarket.getApi().getMinMoney());
                     return;
@@ -197,7 +205,6 @@ public class playerChangeEvent implements Listener {
                 player.sendMessage(sMarket.PLUGIN_NAME+"§e"+"§c店家的货物没有这么多哦");
 
             }
-
         }else{
             player.sendMessage(sMarket.PLUGIN_NAME+"§e"+"§a"+
                     ItemIDSunName.getIDByName(newItem)+"§c没有了哦~~");

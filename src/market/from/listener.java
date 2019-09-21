@@ -56,6 +56,7 @@ public class listener implements Listener {
                     break;
                     case create.CHOSE:
                         if("null".equals(data)) {
+                            create.sendMenu(player);
                             return;
                         }
                         pItems items = pItems.getInstance(player.getName());
@@ -65,6 +66,7 @@ public class listener implements Listener {
                         break;
                     case create.SEEK:
                         if("null".equals(data)) {
+                            create.sendMenu(player);
                             return;
                         }
                         Object[] datas = Tools.decodeData(data);
@@ -79,6 +81,7 @@ public class listener implements Listener {
                         break;
                     case create.TYPES:
                         if("null".equals(data)) {
+                            create.sendMenu(player);
                             return;
                         }
                         sMarket.clickPos.put(player,Tools.getTypeByInt(Integer.parseInt(data)));
@@ -86,19 +89,25 @@ public class listener implements Listener {
                          break;
                     case create.SEEK_MENU:
                         if("null".equals(data)) {
+                            create.sendSeekItems(player);
                             return;
                         }
                         iTypes item = sMarket.seekItem.get(player).get(Integer.parseInt(data));
                         sMarket.clickItem.put(player,item);
-                        if(item.getMaster().equals(player.getName())){
-                            create.sendSetting(player);
+                        String master = item.getMaster();
+                        if(pItems.getInstance(master).inArray(item) != null){
+                            if(item.getMaster().equals(player.getName())){
+                                create.sendSetting(player);
+                            }else{
+                                create.sendBuyMenu(player);
+                            }
                         }else{
-                            create.sendBuyMenu(player);
+                            player.sendMessage(sMarket.PLUGIN_NAME+"§c这个物品不在了");
                         }
-
                         break;
                     case create.SETTING:
                         if("null".equals(data)) {
+                            create.sendMenu(player);
                             return;
                         }
                         iTypes it = sMarket.clickItem.get(player);
@@ -124,6 +133,7 @@ public class listener implements Listener {
                         break;
                     case create.BUY_MENU:
                         if("null".equals(data)) {
+                            create.sendMenu(player);
                             return;
                         }
                         datas = Tools.decodeData(data);
@@ -135,16 +145,21 @@ public class listener implements Listener {
                         break;
                     case create.TYPES_SHOW:
                         if("null".equals(data)) {
+                            create.sendMenu(player);
                             return;
                         }
-                        item = Tools.getItemsByType(sMarket.clickPos.get(player)).get(Integer.parseInt(data));
-                        sMarket.clickItem.put(player,item);
-                        if(item.getMaster().equals(player.getName())){
-                            create.sendSetting(player);
-                        }else{
-                            create.sendBuyMenu(player);
+                        try{
+                            item = Tools.getItemsByType(sMarket.clickPos.get(player)).get(Integer.parseInt(data));
+                            sMarket.clickItem.put(player,item);
+                            if(item.getMaster().equals(player.getName())){
+                                create.sendSetting(player);
+                            }else{
+                                create.sendBuyMenu(player);
+                            }
+                        }catch (Exception e){
+                            player.sendMessage(sMarket.PLUGIN_NAME+"§c这个物品不在了");
+                            return;
                         }
-
                         break;
                     case create.UPDATA:
                         if("null".equals(data)) {
@@ -165,14 +180,14 @@ public class listener implements Listener {
                             player.sendMessage(sMarket.PLUGIN_NAME+"§c请输入正确的价格!!");
                             return;
                         }
-                        if(d > sMarket.getApi().getMaxMoney() && d < sMarket.getApi().getMinMoney()){
+                        if(d > sMarket.getApi().getMaxMoney() || d < sMarket.getApi().getMinMoney()){
                             player.sendMessage(sMarket.PLUGIN_NAME+"§e"+"§a"+
                                     ItemIDSunName.getIDByName(click)+"§c的单价由不能超过"+sMarket.getApi().getMaxMoney()+"或 小于"+sMarket.getApi().getMinMoney());
                             return;
                         }
                         int count = (int)(double) datas[4];
                         if(count == 0){
-                            player.sendMessage(sMarket.PLUGIN_NAME+"§v你已取消上架");
+                            player.sendMessage(sMarket.PLUGIN_NAME+"§c你已取消上架");
                             return;
                         }
                         String tag = "";
