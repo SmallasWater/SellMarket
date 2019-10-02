@@ -123,7 +123,7 @@ public class sMarket extends PluginBase {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if("sm".equals(command.getName()) || "交易".equals(command.getName())){
+        if("sm".equals(command.getName())){
             if(args.length > 0){
                 switch (args[0]){
                     case "help": case "帮助":
