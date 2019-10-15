@@ -107,6 +107,7 @@ public class pItems {
                     if(iTypes2.count <= 0){
                         iTypes1.remove(iTypes2);
                     }
+                    return;
                 }
             }
         }

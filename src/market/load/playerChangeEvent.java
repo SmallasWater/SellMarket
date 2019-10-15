@@ -14,9 +14,11 @@ import market.events.PlayerSettingItemEvent;
 import market.events.PlayerUpperItemEvent;
 import market.player.iTypes;
 import market.player.pItems;
+import market.utils.Bill;
 import market.utils.ItemIDSunName;
 import market.sMarket;
 import java.io.File;
+import java.util.Date;
 
 public class playerChangeEvent implements Listener {
 
@@ -39,6 +41,13 @@ public class playerChangeEvent implements Listener {
         iTypes newI = event.getTypes();
         Item newItem = newI.getItem();
         iTypes old = items.inArray(newI);
+        if(sMarket.getApi().isAdminMenu(newI.getType())){
+            if(!player.isOp() && !sMarket.getApi().isAdmin(player.getName())){
+                player.awardAchievement("admins");
+                player.sendMessage(sMarket.PLUGIN_NAME+"§c抱歉，此分类只能OP上架商品");
+                return;
+            }
+        }
         if(old != null){
             if(old.message.equals(newI.message)){
                 player.sendMessage(sMarket.PLUGIN_NAME+"§e"+"§a"+
@@ -71,6 +80,8 @@ public class playerChangeEvent implements Listener {
             player.sendMessage(sMarket.PLUGIN_NAME+"§e"+"§a"+
                     ItemIDSunName.getIDByName(newI.getItem())+"§a添加至市场__§e单价: §7"+newI.money+" §e数量: §7"+newI.count);
         }
+
+
         player.getInventory().removeItem(newItem);
         items.addSellItem(newI);
         player.awardAchievement("AddItem");
@@ -173,8 +184,10 @@ public class playerChangeEvent implements Listener {
         iTypes iType = event.getTypes();
         pItems items = pItems.getInstance(iType.master);
         Item newItem = iType.getItem();
-        iTypes old = items.inArray(iType);
-        if(old != null){
+        Bill buyer = event.getBuyer();
+        Bill seller = event.getSeller();
+        if(items.inArray(iType) != null){
+            iTypes old = items.inArray(iType);
             if(old.count >= iType.count){
                 if(iType.count == 0){
                     player.sendMessage(sMarket.PLUGIN_NAME+"§c你已放弃购买");
@@ -182,26 +195,51 @@ public class playerChangeEvent implements Listener {
                 }
                 double money = (iType.count * iType.money);
                 if(sMarket.money.myMoney(player) >= money){
-                    items.removeSellItem(iType);
+                    if(!sMarket.getApi().isAdmin(old.master)){
+                        items.removeSellItem(iType);
+                    }
                     sMarket.money.reduceMoney(player,money);
-                    player.getInventory().addItem(newItem);
+                    String sellType;
                     items.save();
                     Player master = Server.getInstance().getPlayer(old.master);
                     player.awardAchievement("BuyItem");
                     if(master != null){
                         master.sendMessage(sMarket.PLUGIN_NAME+"§e"+player.getName()+"购买了你的 §a"+
                                 ItemIDSunName.getIDByName(newItem)+"§7获得 "+sMarket.money.getMonetaryUnit()+money);
-                        sMarket.money.addMoney(master,money);
-                    }else{
-                        sMarket.money.addMoney(old.master,money);
                     }
+                    if(player.getInventory().canAddItem(newItem)){
+                        if(sMarket.money.addMoney(old.master,money)){
+                            player.getInventory().addItem(newItem);
+                            sellType = "§a交易成功";
+                        }else{
+                            sellType = "§c交易异常(金钱增加失败)";
+                        }
 
+                    }else{
+                        if(sMarket.money.addMoney(old.master,money)){
+                            sellType = "§c交易异常(物品给予失败)";
+                        }else{
+                            sellType = "§c交易异常(金钱增加失败,物品给予失败)";
+                        }
+                    }
+                    buyer.setSellType(sellType);
+                    seller.setSellType(sellType);
+                    sMarket.addBile(player.getName(),buyer);
+                    sMarket.addBile(old.master,seller);
                     player.sendMessage(sMarket.PLUGIN_NAME+"§e"+"§a"+
                             ItemIDSunName.getIDByName(newItem)+"§d购买成功!! 花费: "+(sMarket.money.getMonetaryUnit())+money);
                 }else{
+                    buyer.setSellType("§c交易失败 (金钱不足)");
+                    seller.setSellType("§c交易失败 (金钱不足)");
+                    sMarket.addBile(player.getName(),buyer);
+                    sMarket.addBile(old.master,seller);
                     player.sendMessage(sMarket.PLUGIN_NAME+"§e"+"§c你的金钱不够哦 还差"+(sMarket.money.getMonetaryUnit())+(money - sMarket.money.myMoney(player)));
                 }
             }else{
+                buyer.setSellType("§c交易失败 (货物不足)");
+                seller.setSellType("§c交易失败 (货物不足)");
+                sMarket.addBile(player.getName(),buyer);
+                sMarket.addBile(old.master,seller);
                 player.sendMessage(sMarket.PLUGIN_NAME+"§e"+"§c店家的货物没有这么多哦");
 
             }

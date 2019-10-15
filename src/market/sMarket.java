@@ -5,7 +5,6 @@ import cn.nukkit.Player;
 import cn.nukkit.Server;
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
-import cn.nukkit.form.window.FormWindow;
 import cn.nukkit.item.Item;
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.Config;
@@ -13,6 +12,7 @@ import market.load.loadMoney;
 import market.load.playerChangeEvent;
 import market.player.iTypes;
 import market.player.pItems;
+import market.utils.Bill;
 import market.utils.Tools;
 import market.from.*;
 import market.utils.banItem;
@@ -32,6 +32,10 @@ public class sMarket extends PluginBase {
     public Config config;
 
     private Config black;
+
+    private Config adminConfig;
+
+    private Config adminMenu;
     //黑名单
 
     public static LinkedHashMap<String, pItems> playerItems = new LinkedHashMap<>();
@@ -49,6 +53,8 @@ public class sMarket extends PluginBase {
     public static LinkedHashMap<Player, seekSetting> seekSetting = new LinkedHashMap<>();
 
     public static LinkedHashMap<String,String> sType = new LinkedHashMap<>();
+
+    private static LinkedHashMap<String, LinkedList<Bill>> playerBill = new LinkedHashMap<>();
 
 
     public static loadMoney money;
@@ -72,10 +78,21 @@ public class sMarket extends PluginBase {
         this.black = new Config(this.getDataFolder()+"/blackItems.yml",Config.YAML);
         //缓存
         this.getLogger().info(PLUGIN_NAME+"初始化..玩家商店");
-
         long t1 = System.currentTimeMillis();
         money = new loadMoney();
         playerItems = Tools.getPlayerConfigs();
+
+        File adminFile = new File(this.getDataFolder()+"/admins.yml");
+        if(!adminFile.exists()){
+            saveResource("admins.yml");
+        }
+        this.adminConfig = new Config(adminFile,Config.YAML);
+
+        File adminMenuFile = new File(this.getDataFolder()+"/adminMenu.yml");
+        if(!adminMenuFile.exists()){
+            saveResource("adminMenu.yml");
+        }
+        this.adminMenu = new Config(adminMenuFile,Config.YAML);
 
         long t2 = System.currentTimeMillis();
 
@@ -88,11 +105,56 @@ public class sMarket extends PluginBase {
         Achievement.add("SellMarket",new Achievement("§d更多的商店"));
         Achievement.add("AddItem",new Achievement("§b第一件商品!"));
         Achievement.add("BuyItem",new Achievement("§d交易第一单!"));
+        Achievement.add("admins",new Achievement("§l§e管理员了不起啊"));
         Achievement.add("setItem",new Achievement("§c不合理的商品"));
 
         this.getServer().getPluginManager().registerEvents(new playerChangeEvent(),this);
         this.getServer().getPluginManager().registerEvents(new listener(),this);
 
+    }
+
+    private static LinkedList<Bill>getPlayerBills(String playerName) {
+        if(playerBill.containsKey(playerName)){
+            return playerBill.get(playerName);
+        }
+        return new LinkedList<>();
+    }
+
+    private LinkedList<String>getAdmins() {
+        return new LinkedList<>(adminConfig.getStringList("ops"));
+    }
+
+    public boolean isAdmin(String name){
+        return getAdmins().contains(name);
+    }
+
+    private LinkedList<String>getAdminsMenus() {
+        return new LinkedList<>(adminMenu.getStringList("AdminMenu"));
+    }
+
+    public boolean isAdminMenu(String name){
+        return getAdminsMenus().contains(name);
+    }
+
+    private void changeAdmin(String name){
+        LinkedList<String> strings = getAdmins();
+        if(strings.contains(name)){
+            strings.remove(name);
+        }else {
+            strings.add(name);
+        }
+        adminConfig.set("ops",strings);
+        adminConfig.save();
+    }
+
+    public static void addBile(String playerName,Bill bill){
+        LinkedList<Bill> bills = getPlayerBills(playerName);
+        bills.add(bill);
+        setPlayerBills(playerName,bills);
+    }
+
+    private static void setPlayerBills(String playerName,LinkedList<Bill> playerBills) {
+        playerBill.put(playerName,playerBills);
     }
 
     public int getCountMax(){
@@ -123,15 +185,17 @@ public class sMarket extends PluginBase {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if("sm".equals(command.getName())){
+        if("sm".equals(command.getName()) || "交易".equals(command.getName())){
             if(args.length > 0){
                 switch (args[0]){
                     case "help": case "帮助":
                         sender.sendMessage("§l§6=========="+PLUGIN_NAME+"§6==========");
                         sender.sendMessage("§b/sm §ahelp §7查看帮助");
                         sender.sendMessage("§b/sm §aadd §7添加手持物品到市场");
+                        sender.sendMessage("§b/sm §abill §7查询近期的账单");
                         if(sender.isOp()){
                             sender.sendMessage("§b/sm §ablack §7添加/删除手持物品到黑名单");
+                            sender.sendMessage("§b/sm §aadmin <玩家> §7添加/删除 无限物品玩家");
                         }
                         sender.sendMessage("§l§6================================");
                         break;
@@ -196,6 +260,38 @@ public class sMarket extends PluginBase {
 
                         }else{
                             sender.sendMessage(PLUGIN_NAME+"§c(请不要用控制台执行)");
+                        }
+                        break;
+                    case "admin": case "管理":
+                        if(sender.isOp()){
+                            if(args.length > 1){
+                                if(isAdmin(args[1])){
+                                    sender.sendMessage(PLUGIN_NAME+"§e 移除管理者"+args[1]+"成功");
+                                }else{
+                                    sender.sendMessage(PLUGIN_NAME+"§e 增加管理者"+args[1]+"成功");
+                                }
+                                changeAdmin(args[1]);
+                            }else{
+                                return false;
+                            }
+                        }else{
+                            return false;
+                        }
+                        break;
+                    case "账单": case "bill":
+                        if(sender instanceof Player){
+                            LinkedList<Bill> bills = getPlayerBills(sender.getName());
+                            if(bills.size() > 0){
+                                StringBuilder builder = new StringBuilder();
+                                for (Bill bill:bills) {
+                                    builder.append(bill.toString());
+                                }
+                                create.sendBill((Player) sender,builder.toString());
+                            }else{
+                                sender.sendMessage(PLUGIN_NAME+"§7近期没有账单哦");
+                            }
+                        }else{
+                            sender.sendMessage("控制台没有账单");
                         }
                         break;
                         default:return false;

@@ -55,6 +55,9 @@ public class create {
     /** 物品信息*/
     private static final int MESSAGE = 0xAAA0012;
 
+    /** 账单*/
+    private static final int BILL = 0xAAA0013;
+
 
     private static LinkedHashMap<String,String> menu = new LinkedHashMap<String, String>(){
         {
@@ -81,10 +84,10 @@ public class create {
     static void sendSetting(Player player){
         iTypes item = sMarket.clickItem.get(player);
         FormWindowCustom custom = new FormWindowCustom(sMarket.PLUGIN_NAME+"--编辑");
-        String s = "§l§e商品名称: "+item.getName()+"\n\n"+
-                  "§l§e商品数量: §a"+item.getCount()+"\n\n"+
-                  "§l§e商品简介: §r"+item.getMessage()+"\n\n"+
-                  "§l§e商品单价: §c"+(sMarket.money.getMonetaryUnit()+item.getMoney())+"\n";
+        String s = "§r§l商品名称: "+item.getName()+"\n\n"+
+                  "§r§l商品数量: §a"+item.getCount()+"\n\n"+
+                  "§r§l商品简介: §r"+item.getMessage()+"\n\n"+
+                  "§r§l商品单价: §c"+(sMarket.money.getMonetaryUnit()+item.getMoney())+"\n";
         custom.addElement(new ElementLabel(s));
         custom.addElement(new ElementDropdown("修改分类",Tools.toList(sMarket.sType.keySet().toArray()),Tools.getIntByType(item.type)));
         custom.addElement(new ElementInput("显示名称","请修改名称",item.getName()));
@@ -131,12 +134,17 @@ public class create {
     static void sendBuyMenu(Player player){
         FormWindowCustom custom = new FormWindowCustom(sMarket.PLUGIN_NAME+"--购买");
         iTypes item = sMarket.clickItem.get(player);
-        String s = "§l§e商品名称: "+item.getName()+"\n\n"+
-                   "§l§e出售者: "+item.getMaster()+"\n\n"+
-                   "§l§e是否含有NBT: "+(item.hasTag()?"§a是":"§c否")+"\n\n"+
-                   "§l§e商品数量: §a"+item.getCount()+"\n\n"+
-                   "§l§e商品简介: §r"+item.getMessage()+"\n\n"+
-                   "§l§e商品单价: §c"+(sMarket.money.getMonetaryUnit()+item.getMoney())+"\n";
+        int count = 0;
+        Item item1 = item.getItem();
+        if(item1.hasCompoundTag()){
+            count = item.getItem().getNamedTag().getAllTags().size();
+        }
+        String s = "§r§l商品名称: "+item.getName()+"\n\n"+
+                   "§r§l出售者: "+item.getMaster()+"\n\n"+
+                   "§r§lNBT标签: §e"+count+"个\n\n"+
+                   "§r§l商品数量: §a"+item.getCount()+"\n\n"+
+                   "§r§l商品简介: §r"+item.getMessage()+"\n\n"+
+                   "§r§l商品单价: §c"+(sMarket.money.getMonetaryUnit()+item.getMoney())+"\n";
         custom.addElement(new ElementLabel(s));
         LinkedList<String> list = new LinkedList<>();
         for(int i = 0;i <= item.getCount();i++){
@@ -259,6 +267,12 @@ public class create {
         }
         custom.addElement(new ElementStepSlider("§l§e请设置上架数量",strings,hand.count));
         send(player,custom,UPDATA);
+    }
+
+    public static void sendBill(Player player,String s){
+        FormWindowSimple simple = new FormWindowSimple(sMarket.PLUGIN_NAME+"--账单","");
+        simple.setContent(s);
+        send(player,simple,BILL);
     }
 
 

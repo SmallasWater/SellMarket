@@ -27,11 +27,11 @@ public class loadMoney {
         return "$";
     }
 
-    public double myMoney(Player player){
+    double myMoney(Player player){
         return myMoney(player.getName());
     }
 
-    public double myMoney(String player){
+    private double myMoney(String player){
         switch (this.money){
             case MONEY:
                 if(Money.getInstance().getPlayers().contains(player)){
@@ -46,41 +46,42 @@ public class loadMoney {
         return 0;
     }
 
-    public boolean addMoney(Player player,double money){
-        return addMoney(player.getName(),money);
+    boolean addMoney(Player player, double money){
+        return addMoney(player.getName(), money);
     }
 
-    public boolean addMoney(String player,double money){
+    boolean addMoney(String player, double money){
         switch (this.money){
             case MONEY:
                 if(Money.getInstance().getPlayers().contains(player)){
-                    return Money.getInstance().addMoney(player,(float) money);
+                    return Money.getInstance().addMoney(player, (float) money);
                 }
                 break;
             case ECONOMY_API:
-                return (EconomyAPI.getInstance().addMoney(player,money) == 1);
+                return (EconomyAPI.getInstance().addMoney(player, money, true) == 1);
 
             default:break;
         }
         return false;
     }
-    public boolean reduceMoney(Player player,double money){
-        return reduceMoney(player.getName(),money);
+    void reduceMoney(Player player, double money){
+        reduceMoney(player.getName(), money);
     }
 
-    public boolean reduceMoney(String player,double money){
+    private void reduceMoney(String player, double money){
         switch (this.money){
             case MONEY:
                 if(Money.getInstance().getPlayers().contains(player)){
-                    return Money.getInstance().reduceMoney(player,(float) money);
+                    Money.getInstance().reduceMoney(player, (float) money);
+                    return;
                 }
                 break;
             case ECONOMY_API:
-                return (EconomyAPI.getInstance().reduceMoney(player,money) == 1);
+                EconomyAPI.getInstance().reduceMoney(player, money, true);
+                return;
 
             default:break;
         }
-        return false;
     }
 
 

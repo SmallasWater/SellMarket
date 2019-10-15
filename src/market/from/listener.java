@@ -13,10 +13,12 @@ import market.events.PlayerUpperItemEvent;
 import market.sMarket;
 import market.player.iTypes;
 import market.player.pItems;
+import market.utils.Bill;
 import market.utils.ItemIDSunName;
 import market.utils.Tools;
 import market.utils.seekSetting;
 
+import java.util.Date;
 import java.util.LinkedList;
 
 public class listener implements Listener {
@@ -102,7 +104,7 @@ public class listener implements Listener {
                                 create.sendBuyMenu(player);
                             }
                         }else{
-                            player.sendMessage(sMarket.PLUGIN_NAME+"§c这个物品不在了");
+                            player.sendMessage(sMarket.PLUGIN_NAME+"§c"+item.getName()+"物品不在了");
                         }
                         break;
                     case create.SETTING:
@@ -133,19 +135,31 @@ public class listener implements Listener {
                         break;
                     case create.BUY_MENU:
                         if("null".equals(data)) {
-                            create.sendMenu(player);
                             return;
                         }
                         datas = Tools.decodeData(data);
                         iTypes its = sMarket.clickItem.get(player);
                         iTypes i = its.clone();
                         i.setCount((int)(double) datas[1]);
-                        PlayerBuyItemEvent event1 = new PlayerBuyItemEvent(player,i);
+                        Bill buy = new Bill(new Date()
+                                ,i.master
+                                ,ItemIDSunName.getIDByName(i.getItem())
+                                ,((int)(i.count * i.money))
+                                ,i.getItem().getCount()
+                                ,Bill.BUY
+                                ,"§c交易异常 (物品遗失)");
+                        Bill sell = new Bill(new Date()
+                                ,player.getName()
+                                ,ItemIDSunName.getIDByName(i.getItem())
+                                ,((int)(i.count * i.money))
+                                ,i.getItem().getCount()
+                                ,Bill.SELL
+                                ,"§c交易异常 (物品遗失)");
+                        PlayerBuyItemEvent event1 = new PlayerBuyItemEvent(player,i,buy,sell);
                         Server.getInstance().getPluginManager().callEvent(event1);
-                        break;
+                        return;
                     case create.TYPES_SHOW:
                         if("null".equals(data)) {
-                            create.sendMenu(player);
                             return;
                         }
                         try{
@@ -194,6 +208,8 @@ public class listener implements Listener {
                         if(click.hasCompoundTag()){
                             tag = Tools.bytesToHexString(click.getCompoundTag());
                         }
+
+
                         PlayerUpperItemEvent upperItemEvent =
                                 new PlayerUpperItemEvent(player,
                                         new iTypes(player.getName(),Tools.getTypeByInt(chose),id,count,d,tag,message));

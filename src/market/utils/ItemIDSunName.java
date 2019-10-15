@@ -1671,9 +1671,9 @@ public enum ItemIDSunName {
      */
     CLAY_BALL("粘土球", 337, 0, "textures/items/clay_ball.png"),
     /**
-     * 砖块
+     * 红砖
      */
-    BRICK("砖块", 336, 0, "textures/items/clay_ball.png"),
+    BRICK("红砖", 336, 0, "textures/items/brick.png"),
     /**
      * 甘蔗
      */
