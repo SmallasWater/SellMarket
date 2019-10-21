@@ -84,9 +84,6 @@ public class Tools {
         return linkedHashMap;
     }
 
-    private void sendMenuById(int id){
-
-    }
 
     public static LinkedHashMap<String, pItems> getPlayerConfigs(){
         File file = new File(sMarket.getApi().getDataFolder()+"/Players");

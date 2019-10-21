@@ -1,9 +1,11 @@
 name: SellMarket
 main: market.sMarket
-version: 1.3.0
+version: 1.4.9
 api: "1.0.8"
 author: 若水
 load: POSTWORLD
+loadbefore:
+  - AutoUpData
 commands:
   sm:
     usage: /sm 帮助

@@ -12,11 +12,10 @@ import market.load.loadMoney;
 import market.load.playerChangeEvent;
 import market.player.iTypes;
 import market.player.pItems;
-import market.utils.Bill;
-import market.utils.Tools;
+import market.utils.*;
 import market.from.*;
-import market.utils.banItem;
-import market.utils.seekSetting;
+import updata.AutoData;
+import updata.utils.UpData;
 
 import java.io.File;
 import java.util.LinkedHashMap;
@@ -59,25 +58,43 @@ public class sMarket extends PluginBase {
 
     public static loadMoney money;
 
+    private static boolean onUpData = false;
+
+    public static String upName;
+
+
 
     @Override
     public void onEnable() {
         api = this;
-        this.getLogger().info(PLUGIN_NAME+"启动成功");
+        if(Server.getInstance().getPluginManager().getPlugin("AutoUpData") != null){
+            UpData data = AutoData.get(this,this.getFile(),"SmallasWater","SellMarket");
+            if(data != null){
+                if(data.canUpdate()){
+                    this.getLogger().info("检测到新版本 v"+data.getNewVersion());
+                    this.getLogger().info("更新内容: "+data.getNewVersionMessage());
+                    if(!data.toUpData()){
+                        this.getLogger().info("更新失败");
+                    }
+                }
+            }else{
+                this.getLogger().info("更新检查失败");
+            }
+        }
         saveDefaultConfig();
         saveBlack();
         reloadConfig();
         File file = new File(this.getDataFolder()+"/Players");
         if(!file.exists()){
             if(!file.mkdirs()){
-                this.getLogger().info(PLUGIN_NAME+"创建/Players/文件夹失败");
+                Server.getInstance().getLogger().info(PLUGIN_NAME+"创建/Players/文件夹失败");
             }
         }
         this.config = getConfig();
         sType = Tools.getType();
         this.black = new Config(this.getDataFolder()+"/blackItems.yml",Config.YAML);
         //缓存
-        this.getLogger().info(PLUGIN_NAME+"初始化..玩家商店");
+        Server.getInstance().getLogger().info(PLUGIN_NAME+"初始化..玩家商店");
         long t1 = System.currentTimeMillis();
         money = new loadMoney();
         playerItems = Tools.getPlayerConfigs();
@@ -96,7 +113,7 @@ public class sMarket extends PluginBase {
 
         long t2 = System.currentTimeMillis();
 
-        this.getLogger().info(PLUGIN_NAME+"玩家商店初始化完成 用时:"+((t2 - t1) % (1000 * 60))+"ms");
+        Server.getInstance().getLogger().info(PLUGIN_NAME+"玩家商店初始化完成 用时:"+((t2 - t1) % (1000 * 60))+"ms");
 
         for(String s:black.getStringList("封禁物品")){
             banItems.add(banItem.toItem(s));
@@ -310,4 +327,6 @@ public class sMarket extends PluginBase {
     public static sMarket getApi() {
         return api;
     }
+
+
 }

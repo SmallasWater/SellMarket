@@ -857,67 +857,67 @@ public enum ItemIDSunName {
     /**
      * 白色粘土
      */
-    WHITE_STAINED_HARDENED_CLAY("白色粘土", 159, 0, "textures/blocks/hardened_clay_stained_white.png"),
+    WHITE_STAINED_HARDENED_CLAY("白色陶瓦", 159, 0, "textures/blocks/hardened_clay_stained_white.png"),
     /**
      * 橙色粘土
      */
-    ORANGE_STAINED_HARDENED_CLAY("橙色粘土", 159, 1, "textures/blocks/hardened_clay_stained_orange.png"),
+    ORANGE_STAINED_HARDENED_CLAY("橙色陶瓦", 159, 1, "textures/blocks/hardened_clay_stained_orange.png"),
     /**
      * 品红色粘土
      */
-    SOLFERINO_STAINED_HARDENED_CLAY("品红色粘土", 159, 2, "textures/blocks/hardened_clay_stained_magenta.png"),
+    SOLFERINO_STAINED_HARDENED_CLAY("品红色陶瓦", 159, 2, "textures/blocks/hardened_clay_stained_magenta.png"),
     /**
      * 淡蓝色粘土
      */
-    LIGHT_BLUE_STAINED_HARDENED_CLAY("淡蓝色粘土", 159, 3, "textures/blocks/hardened_clay_stained_light_blue.png"),
+    LIGHT_BLUE_STAINED_HARDENED_CLAY("淡蓝色陶瓦", 159, 3, "textures/blocks/hardened_clay_stained_light_blue.png"),
     /**
      * 黄色粘土
      */
-    YELLOW_STAINED_HARDENED_CLAY("黄色粘土", 159, 4, "textures/blocks/hardened_clay_stained_yellow.png"),
+    YELLOW_STAINED_HARDENED_CLAY("黄色陶瓦", 159, 4, "textures/blocks/hardened_clay_stained_yellow.png"),
     /**
      * 黄绿色粘土
      */
-    OLIVINE_STAINED_HARDENED_CLAY("黄绿色粘土", 159, 5, "textures/blocks/hardened_clay_stained_lime.png"),
+    OLIVINE_STAINED_HARDENED_CLAY("黄绿色陶瓦", 159, 5, "textures/blocks/hardened_clay_stained_lime.png"),
     /**
      * 粉红色粘土
      */
-    PINK_STAINED_HARDENED_CLAY("粉红色粘土", 159, 6, "textures/blocks/hardened_clay_stained_pink.png"),
+    PINK_STAINED_HARDENED_CLAY("粉红色陶瓦", 159, 6, "textures/blocks/hardened_clay_stained_pink.png"),
     /**
      * 灰色粘土
      */
-    GRAY_STAINED_HARDENED_CLAY("灰色粘土", 159, 7, "textures/blocks/hardened_clay_stained_gray.png"),
+    GRAY_STAINED_HARDENED_CLAY("灰色陶瓦", 159, 7, "textures/blocks/hardened_clay_stained_gray.png"),
     /**
      * 淡灰色粘土
      */
-    LIGHT_GRAY_STAINED_HARDENED_CLAY("淡灰色粘土", 159, 8, "textures/blocks/concrete_gray.png"),
+    LIGHT_GRAY_STAINED_HARDENED_CLAY("淡灰色陶瓦", 159, 8, "textures/blocks/concrete_gray.png"),
     /**
      * 青色粘土
      */
-    CYAN_STAINED_HARDENED_CLAY("青色粘土", 159, 9, "textures/blocks/hardened_clay_stained_lime.png"),
+    CYAN_STAINED_HARDENED_CLAY("青色陶瓦", 159, 9, "textures/blocks/hardened_clay_stained_lime.png"),
     /**
      * 紫色粘土
      */
-    VIOLET_STAINED_HARDENED_CLAY("紫色粘土", 159, 10, "textures/blocks/hardened_clay_stained_purple.png"),
+    VIOLET_STAINED_HARDENED_CLAY("紫色陶瓦", 159, 10, "textures/blocks/hardened_clay_stained_purple.png"),
     /**
      * 蓝色粘土
      */
-    BLUE_STAINED_HARDENED_CLAY("蓝色粘土", 159, 11, "textures/blocks/hardened_clay_stained_blue.png"),
+    BLUE_STAINED_HARDENED_CLAY("蓝色陶瓦", 159, 11, "textures/blocks/hardened_clay_stained_blue.png"),
     /**
      * 棕色粘土
      */
-    BROWN_STAINED_HARDENED_CLAY("棕色粘土", 159, 12, "textures/blocks/hardened_clay_stained_brown.png"),
+    BROWN_STAINED_HARDENED_CLAY("棕色陶瓦", 159, 12, "textures/blocks/hardened_clay_stained_brown.png"),
     /**
      * 绿色粘土
      */
-    GREEN_STAINED_HARDENED_CLAY("绿色粘土", 159, 13, "textures/blocks/hardened_clay_stained_green.png"),
+    GREEN_STAINED_HARDENED_CLAY("绿色陶瓦", 159, 13, "textures/blocks/hardened_clay_stained_green.png"),
     /**
      * 红色粘土
      */
-    RED_STAINED_HARDENED_CLAY("红色粘土", 159, 14, "textures/blocks/hardened_clay_stained_red.png"),
+    RED_STAINED_HARDENED_CLAY("红色陶瓦", 159, 14, "textures/blocks/hardened_clay_stained_red.png"),
     /**
      * 黑色粘土
      */
-    BLACK_STAINED_HARDENED_CLAY("黑色粘土", 159, 15, "textures/blocks/hardened_clay_stained_black.png"),
+    BLACK_STAINED_HARDENED_CLAY("黑色陶瓦", 159, 15, "textures/blocks/hardened_clay_stained_black.png"),
     /**
      * 白色玻璃板
      */
@@ -1101,7 +1101,7 @@ public enum ItemIDSunName {
     /**
      * 硬化粘土
      */
-    HARDENED_CLAY("硬化粘土", 172, 0, "textures/blocks/hardened_clay.png"),
+    HARDENED_CLAY("陶瓦", 172, 0, "textures/blocks/hardened_clay.png"),
     /**
      * 煤炭块
      */
@@ -1229,67 +1229,67 @@ public enum ItemIDSunName {
     /**
      * 白色带釉陶瓦
      */
-    WHITE_GLAZED("白色带釉陶瓦", 220, 2, "textures/blocks/glazed_terracotta_white.png"),
+    WHITE_GLAZED("白色带釉陶瓦", 220, 0, "textures/blocks/glazed_terracotta_white.png"),
     /**
      * 灰色带釉陶瓦
      */
-    GRAY_GLAZED("灰色带釉陶瓦", 227, 2, "textures/blocks/glazed_terracotta_gray.png"),
+    GRAY_GLAZED("灰色带釉陶瓦", 227, 0, "textures/blocks/glazed_terracotta_gray.png"),
     /**
      * 淡灰色带釉陶瓦
      */
-    SILVER_GLAZED("淡灰色带釉陶瓦", 228, 2, "textures/blocks/glazed_terracotta_silver.png"),
+    SILVER_GLAZED("淡灰色带釉陶瓦", 228, 0, "textures/blocks/glazed_terracotta_silver.png"),
     /**
      * 黑色带釉陶瓦
      */
-    OBSIDIAN_GLAZED("黑色带釉陶瓦", 235, 2, "textures/blocks/glowing_obsidian.png"),
+    OBSIDIAN_GLAZED("黑色带釉陶瓦", 235, 0, "textures/blocks/glowing_obsidian.png"),
     /**
      * 棕色带釉陶瓦
      */
-    BROWN_GLAZED("棕色带釉陶瓦", 232, 2, "textures/blocks/glazed_terracotta_brown.png"),
+    BROWN_GLAZED("棕色带釉陶瓦", 232, 0, "textures/blocks/glazed_terracotta_brown.png"),
     /**
      * 红色带釉陶瓦
      */
-    RED_GLAZED("红色带釉陶瓦", 234, 2, "textures/blocks/glazed_terracotta_red.png"),
+    RED_GLAZED("红色带釉陶瓦", 234, 0, "textures/blocks/glazed_terracotta_red.png"),
     /**
      * 橙色带釉陶瓦
      */
-    ORANGE_GLAZED("橙色带釉陶瓦", 221, 2, "textures/blocks/glazed_terracotta_orange.png"),
+    ORANGE_GLAZED("橙色带釉陶瓦", 221, 0, "textures/blocks/glazed_terracotta_orange.png"),
     /**
      * 黄色带釉陶瓦
      */
-    YELLOW_GLAZED("黄色带釉陶瓦", 224, 2, "textures/blocks/glazed_terracotta_yellow.png"),
+    YELLOW_GLAZED("黄色带釉陶瓦", 224, 0, "textures/blocks/glazed_terracotta_yellow.png"),
     /**
      * 黄绿色带釉陶瓦
      */
-    LIME_GLAZED("黄绿色带釉陶瓦", 225, 2, "textures/blocks/glazed_terracotta_lime.png"),
+    LIME_GLAZED("黄绿色带釉陶瓦", 225, 0, "textures/blocks/glazed_terracotta_lime.png"),
     /**
      * 绿色带釉陶瓦
      */
-    GREEN_GLAZED("绿色带釉陶瓦", 233, 2, "textures/blocks/glazed_terracotta_green.png"),
+    GREEN_GLAZED("绿色带釉陶瓦", 233, 0, "textures/blocks/glazed_terracotta_green.png"),
     /**
      * 青色带釉陶瓦
      */
-    CYAN_GLAZED("青色带釉陶瓦", 229, 2, "textures/blocks/glazed_terracotta_cyan.png"),
+    CYAN_GLAZED("青色带釉陶瓦", 229, 0, "textures/blocks/glazed_terracotta_cyan.png"),
     /**
      * 淡蓝色带釉陶瓦
      */
-    LBLUE_GLAZED("淡蓝色带釉陶瓦", 223, 2, "textures/blocks/glazed_terracotta_light_blue.png"),
+    LBLUE_GLAZED("淡蓝色带釉陶瓦", 223, 0, "textures/blocks/glazed_terracotta_light_blue.png"),
     /**
      * 蓝色带釉陶瓦
      */
-    BLUE_GLAZED("蓝色带釉陶瓦", 231, 2, "textures/blocks/glazed_terracotta_blue.png"),
+    BLUE_GLAZED("蓝色带釉陶瓦", 231, 0, "textures/blocks/glazed_terracotta_blue.png"),
     /**
      * 紫色带釉陶瓦
      */
-    PURPLE_GLAZED("紫色带釉陶瓦", 219, 2, "textures/blocks/glazed_terracotta_purple.png"),
+    PURPLE_GLAZED("紫色带釉陶瓦", 219, 0, "textures/blocks/glazed_terracotta_purple.png"),
     /**
      * 品红色带釉陶瓦
      */
-    MAGENTA_GLAZED("品红色带釉陶瓦", 222, 2, "textures/blocks/glazed_terracotta_magenta.png"),
+    MAGENTA_GLAZED("品红色带釉陶瓦", 222, 0, "textures/blocks/glazed_terracotta_magenta.png"),
     /**
      * 粉红色带釉陶瓦
      */
-    PINK_GLAZED("粉红色带釉陶瓦", 226, 2, "textures/blocks/glazed_terracotta_pink.png"),
+    PINK_GLAZED("粉红色带釉陶瓦", 226, 0, "textures/blocks/glazed_terracotta_pink.png"),
     /**
      * 共鸣植物
      */
@@ -2163,7 +2163,145 @@ public enum ItemIDSunName {
     /**
      * 甜梅
      */
-    SWEET_BERRIES("甜梅", 477, 0, "textures/items/sweet_berries.png");
+    SWEET_BERRIES("甜梅", 477, 0, "textures/items/sweet_berries.png"),
+    /**
+     * 岩浆块
+     * */
+    MAGMA("岩浆块",213,0,"textures/blocks/magma.png"),
+    /**
+     * 淡灰色混凝土粉末
+     * */
+    CONCRETE_POWDER_SILVER("淡灰色混凝土粉末",237,8,"textures/blocks/concrete_powder_silver.png"),
+    /**
+     * 灰色混凝土粉末
+     * */
+    CONCRETE_POWDER_GRAY("灰色混凝土粉末",237,7,"textures/blocks/concrete_powder_gray.png"),
+    /**
+     * 黑色混凝土粉末
+     * */
+    CONCRETE_POWDER_BLACK("黑色混凝土粉末",237,15,"textures/blocks/concrete_powder_black.png"),
+    /**
+     * 棕色混凝土粉末
+     * */
+    CONCRETE_POWDER_BROWN("棕色混凝土粉末",237,12,"textures/blocks/concrete_powder_brown.png"),
+    /**
+     * 红色混凝土粉末
+     * */
+    CONCRETE_POWDER_RED("红色混凝土粉末",237,14,"textures/blocks/concrete_powder_red.png"),
+    /**
+     * 橙色混凝土粉末
+     * */
+    CONCRETE_POWDER_ORANGE("橙色混凝土粉末",237,1,"textures/blocks/concrete_powder_orange.png"),
+    /**
+     * 黄色混凝土粉末
+     * */
+    CONCRETE_POWDER_YELLOW("黄色混凝土粉末",237,4,"textures/blocks/concrete_powder_yellow.png"),
+    /**
+     * 黄绿色混凝土粉末
+     * */
+    CONCRETE_POWDER_LIME("黄绿色混凝土粉末",237,5,"textures/blocks/concrete_powder_lime.png"),
+    /**
+     * 绿色混凝土粉末
+     * */
+    CONCRETE_POWDER_GREEN("绿色混凝土粉末",237,13,"textures/blocks/concrete_powder_green.png"),
+    /**
+     * 青色混凝土粉末
+     * */
+    CONCRETE_POWDER_CYAN("青色混凝土粉末",237,9,"textures/blocks/concrete_powder_cyan.png"),
+    /**
+     * 淡蓝色混凝土粉末
+     * */
+    CONCRETE_POWDER_LIGHT_BLUE("淡蓝色混凝土粉末",237,3,"textures/blocks/concrete_powder_light_blue.png"),
+    /**
+     * 蓝色混凝土粉末
+     * */
+    CONCRETE_POWDER_BLUE("蓝色混凝土粉末",237,11,"textures/blocks/concrete_powder_blue.png"),
+    /**
+     * 紫色混凝土粉末
+     * */
+    CONCRETE_POWDER_PURPLE("紫色混凝土粉末",237,10,"textures/blocks/concrete_powder_purple.png"),
+    /**
+     * 品红色混凝土粉末
+     * */
+    CONCRETE_POWDER_MAGENTA("品红色混凝土粉末",237,2,"textures/blocks/concrete_powder_magenta.png"),
+    /**
+     * 粉色混凝土粉末
+     * */
+    CONCRETE_POWDER_PINK("粉色混凝土粉末",237,6,"textures/blocks/concrete_powder_pink.png"),
+    /**
+     * 白色混凝土粉末
+     * */
+    CONCRETE_POWDER_WHITE("白色混凝土粉末",237,0,"textures/blocks/concrete_powder_white.png"),
+
+    /**
+     * 淡灰色混凝土
+     * */
+    CONCRETE_SILVER("淡灰色混凝土",236,8,"textures/blocks/concrete_silver.png"),
+    /**
+     * 灰色混凝土
+     * */
+    CONCRETE_GRAY("灰色混凝土",236,7,"textures/blocks/concrete_gray.png"),
+    /**
+     * 黑色混凝土
+     * */
+    CONCRETE_BLACK("黑色混凝土",236,15,"textures/blocks/concrete_black.png"),
+    /**
+     * 棕色混凝土
+     * */
+    CONCRETE_BROWN("棕色混凝土",236,12,"textures/blocks/concrete_brown.png"),
+    /**
+     * 红色混凝土
+     * */
+    CONCRETE_RED("红色混凝土",236,14,"textures/blocks/concrete_red.png"),
+    /**
+     * 橙色混凝土
+     * */
+    CONCRETE_ORANGE("橙色混凝土",236,1,"textures/blocks/concrete_orange.png"),
+    /**
+     * 黄色混凝土
+     * */
+    CONCRETE_YELLOW("黄色混凝土",236,4,"textures/blocks/concrete_yellow.png"),
+    /**
+     * 黄绿色混凝土
+     * */
+    CONCRETE_LIME("黄绿色混凝土",236,5,"textures/blocks/concrete_lime.png"),
+    /**
+     * 绿色混凝土
+     * */
+    CONCRETE_GREEN("绿色混凝土",236,13,"textures/blocks/concrete_green.png"),
+    /**
+     * 青色混凝土
+     * */
+    CONCRETE_CYAN("青色混凝土",236,9,"textures/blocks/concrete_cyan.png"),
+    /**
+     * 淡蓝色混凝土
+     * */
+    CONCRETE_LIGHT_BLUE("淡蓝色混凝土",236,3,"textures/blocks/concrete_light_blue.png"),
+    /**
+     * 蓝色混凝土
+     * */
+    CONCRETE_BLUE("蓝色混凝土",236,11,"textures/blocks/concrete_blue.png"),
+    /**
+     * 紫色混凝土
+     * */
+    CONCRETE_PURPLE("紫色混凝土",236,10,"textures/blocks/concrete_purple.png"),
+    /**
+     * 品红色混凝土
+     * */
+    CONCRETE_MAGENTA("品红色混凝土",236,2,"textures/blocks/concrete_magenta.png"),
+    /**
+     * 粉色混凝土
+     * */
+    CONCRETE_PINK("粉色混凝土",236,6,"textures/blocks/concrete_pink.png"),
+    /**
+     * 白色混凝土
+     * */
+    CONCRETE_WHITE("白色混凝土",236,0,"textures/blocks/concrete_white.png"),
+    /**
+     * 盔甲架
+     * */
+    KJJ("盔甲架",425,0,"textures/items/armor_stand.png");
+
 
     private int ID, Damage;
     private String Name, Path;
