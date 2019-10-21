@@ -13,10 +13,7 @@ import market.events.PlayerUpperItemEvent;
 import market.sMarket;
 import market.player.iTypes;
 import market.player.pItems;
-import market.utils.Bill;
-import market.utils.ItemIDSunName;
-import market.utils.Tools;
-import market.utils.seekSetting;
+import market.utils.*;
 
 import java.util.Date;
 import java.util.LinkedList;
@@ -226,6 +223,35 @@ public class listener implements Listener {
                             Server.getInstance().getPluginManager().callEvent(upperItemEvent);
                             return;
                         }
+                case create.ADD_INVENTORY:
+                    if("null".equals(data)) {
+                        return;
+                    }else{
+                        try {
+                            if(sMarket.invItems.containsKey(player)){
+
+                                Item item = sMarket.invItems.get(player).get(Integer.parseInt(data));
+                                banItem ban = new banItem(item);
+                                if(player.getInventory().contains(item)){
+                                    if(Tools.inArray(ban,sMarket.banItems)){
+                                        player.sendMessage(sMarket.PLUGIN_NAME+"§c此物品在黑名单!");
+                                        return ;
+                                    }
+                                    sMarket.handItem.put(player,item);
+                                    create.sendAddSetting(player);
+                                    return ;
+                                }else{
+                                    player.sendMessage(sMarket.PLUGIN_NAME+"§c物品不在了");
+                                }
+                            }else{
+                                player.sendMessage(sMarket.PLUGIN_NAME+"§c背包数据异常");
+                            }
+                        }catch (Exception e){
+                            player.sendMessage(sMarket.PLUGIN_NAME+"§c操作异常");
+                        }
+
+                    }
+                    return;
                     default:break;
             }
         }

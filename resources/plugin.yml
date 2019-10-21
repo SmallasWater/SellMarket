@@ -1,6 +1,6 @@
 name: SellMarket
 main: market.sMarket
-version: 1.4.9
+version: 1.5.0
 api: "1.0.8"
 author: 若水
 load: POSTWORLD

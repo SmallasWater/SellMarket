@@ -41,6 +41,8 @@ public class sMarket extends PluginBase {
 
     public static LinkedHashMap<Player, Item> handItem = new LinkedHashMap<>();
 
+    public static LinkedHashMap<Player, LinkedList<Item>> invItems = new LinkedHashMap<>();
+
     public static LinkedList<banItem> banItems = new LinkedList<>();
 
     public static LinkedHashMap<Player, iTypes> clickItem = new LinkedHashMap<>();
@@ -209,6 +211,7 @@ public class sMarket extends PluginBase {
                         sender.sendMessage("§l§6=========="+PLUGIN_NAME+"§6==========");
                         sender.sendMessage("§b/sm §ahelp §7查看帮助");
                         sender.sendMessage("§b/sm §aadd §7添加手持物品到市场");
+                        sender.sendMessage("§b/sm §ainv §7打开背包物品列表GUI");
                         sender.sendMessage("§b/sm §abill §7查询近期的账单");
                         if(sender.isOp()){
                             sender.sendMessage("§b/sm §ablack §7添加/删除手持物品到黑名单");
@@ -236,6 +239,17 @@ public class sMarket extends PluginBase {
 
                         }else{
                             sender.sendMessage("请在游戏内执行");
+                        }
+                        break;
+                    case "inv": case "背包":
+                        if(sender instanceof Player){
+                            if(((Player) sender).getGamemode() == 1 && !sender.isOp()){
+                                sender.sendMessage(PLUGIN_NAME+"§c创造模式无法上架物品");
+                                return true;
+                            }
+                            create.sendAddInventory((Player) sender);
+                        }else{
+                            return false;
                         }
                         break;
                     case "黑名单": case "black": case "ab": case "添加黑名单": case "rb": case "移除黑名单":

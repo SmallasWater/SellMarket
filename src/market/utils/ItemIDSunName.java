@@ -2300,7 +2300,11 @@ public enum ItemIDSunName {
     /**
      * 盔甲架
      * */
-    KJJ("盔甲架",425,0,"textures/items/armor_stand.png");
+    ARMOR_STAND_ITEM("盔甲架",425,0,"textures/items/armor_stand.png"),
+    /**
+     * 弩
+     * */
+    CROSSBOW("弩",471,0,"textures/items/crossbow_standby.png");
 
 
     private int ID, Damage;

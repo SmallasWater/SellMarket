@@ -58,6 +58,9 @@ public class create {
     /** 账单*/
     private static final int BILL = 0xAAA0013;
 
+    /** 账单*/
+    static final int ADD_INVENTORY = 0xAAA0014;
+
 
     private static LinkedHashMap<String,String> menu = new LinkedHashMap<String, String>(){
         {
@@ -238,6 +241,19 @@ public class create {
             simple.addButton(new ElementButton(type,new ElementButtonImageData("path",sMarket.sType.get(type))));
         }
         send(player,simple,TYPES);
+    }
+
+    /** 背包选择*/
+    public static void sendAddInventory(Player player){
+        FormWindowSimple simple = new FormWindowSimple(sMarket.PLUGIN_NAME+"--上架选择","");
+        LinkedList<Item> items = new LinkedList<>(player.getInventory().getContents().values());
+        for (Item item:items){
+            ElementButton button = new ElementButton(ItemIDSunName.getIDByName(item)+" §7("+item.getId()+":"+item.getDamage()+")"+" * §a"+item.getCount());
+            button.addImage(new ElementButtonImageData("path",ItemIDSunName.getIDByPath(item)));
+            simple.addButton(button);
+        }
+        sMarket.invItems.put(player,items);
+        send(player,simple,ADD_INVENTORY);
     }
 
     /** 上架商品*/
