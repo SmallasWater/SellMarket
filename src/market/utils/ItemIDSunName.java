@@ -1213,7 +1213,7 @@ public enum ItemIDSunName {
     /**
      * 潜匿之贝箱子
      */
-    PURPUR_SLAB("潜匿之贝箱子", 205, 0, "textures/items/shulker_shell.png"),
+    PURPUR_SLAB("潜匿之贝箱子", 205, 0, "textures/blocks/shulker_top_undyed.png"),
     /**
      * 末地石砖
      */
@@ -1799,10 +1799,6 @@ public enum ItemIDSunName {
      */
     CAKE("蛋糕", 354, 0, "textures/items/cake.png"),
     /**
-     * 床
-     */
-    BED("床", 355, 0, "textures/items/bed_red.png"),
-    /**
      * 中继器
      */
     REPEATER("中继器", 356, 0, "textures/items/repeater.png"),
@@ -2301,6 +2297,139 @@ public enum ItemIDSunName {
      * 盔甲架
      * */
     ARMOR_STAND_ITEM("盔甲架",425,0,"textures/items/armor_stand.png"),
+    /**
+     * 书与羽毛
+     * */
+    BOOK_WRITABLE("书与羽毛",386,0,"textures/items/book_writable.png"),
+    /**
+     * 白色潜匿之贝箱子
+     * */
+    SHULKER_TOP_WHITE("白色潜匿之贝箱子",218,0,"textures/blocks/shulker_top_white.png"),
+    /**
+     * 淡灰色潜匿之贝箱子
+     * */
+    SHULKER_TOP_SILVER("淡灰色潜匿之贝箱子",218,8,"textures/blocks/shulker_top_silver.png"),
+    /**
+     * 灰色潜匿之贝箱子
+     * */
+    SHULKER_TOP_GRAY("灰色潜匿之贝箱子",218,7,"textures/blocks/shulker_top_gray.png"),
+    /**
+     * 黑色潜匿之贝箱子
+     * */
+    SHULKER_TOP_BLACK("黑色潜匿之贝箱子",218,15,"textures/blocks/shulker_top_black.png"),
+    /**
+     * 棕色潜匿之贝箱子
+     * */
+    SHULKER_TOP_BROWN("棕色潜匿之贝箱子",218,12,"textures/blocks/shulker_top_brown.png"),
+    /**
+     * 红色潜匿之贝箱子
+     * */
+    SHULKER_TOP_RED("红色潜匿之贝箱子",218,14,"textures/blocks/shulker_top_red.png"),
+    /**
+     * 橙色潜匿之贝箱子
+     * */
+    SHULKER_TOP_ORANGE("橙色潜匿之贝箱子",218,1,"textures/blocks/shulker_top_orange.png"),
+    /**
+     * 黄色潜匿之贝箱子
+     * */
+    SHULKER_TOP_YELLOW("黄色潜匿之贝箱子",218,4,"textures/blocks/shulker_top_yellow.png"),
+    /**
+     * 黄绿色潜匿之贝箱子
+     * */
+    SHULKER_TOP_LIME("黄绿色潜匿之贝箱子",218,5,"textures/blocks/shulker_top_lime.png"),
+    /**
+     * 绿色潜匿之贝箱子
+     * */
+    SHULKER_TOP_GREEN("绿色潜匿之贝箱子",218,13,"textures/blocks/shulker_top_green.png"),
+    /**
+     * 青色潜匿之贝箱子
+     * */
+    SHULKER_TOP_CYAN("青色潜匿之贝箱子",218,9,"textures/blocks/shulker_top_cyan.png"),
+    /**
+     * 淡蓝色潜匿之贝箱子
+     * */
+    SHULKER_TOP_LIGHT_BLUE("淡蓝色潜匿之贝箱子",218,3,"textures/blocks/shulker_top_light_blue.png"),
+    /**
+     * 蓝色潜匿之贝箱子
+     * */
+    SHULKER_TOP_BLUE("蓝色潜匿之贝箱子",218,11,"textures/blocks/shulker_top_blue.png"),
+    /**
+     * 紫色潜匿之贝箱子
+     * */
+    SHULKER_TOP_PURPLE("紫色潜匿之贝箱子",218,10,"textures/blocks/shulker_top_purple.png"),
+    /**
+     * 品红色潜匿之贝箱子
+     * */
+    SHULKER_TOP_MAGENTA("品红色潜匿之贝箱子",218,2,"textures/blocks/shulker_top_magenta.png"),
+    /**
+     * 粉色潜匿之贝箱子
+     * */
+    SHULKER_TOP_PINK("粉色潜匿之贝箱子",218,6,"textures/blocks/shulker_top_pink.png"),
+    /**
+     * 白色床
+     * */
+    BED_WHITE("白色床",355,0,"textures/items/bed_white.png"),
+    /**
+     * 淡灰色床
+     * */
+    BED_SILVER("淡灰色床",355,8,"textures/items/bed_silver.png"),
+    /**
+     * 灰色床
+     * */
+    BED_GRAY("灰色床",355,7,"textures/items/bed_gray.png"),
+    /**
+     * 黑色床
+     * */
+    BED_BLACK("黑色床",355,15,"textures/items/bed_black.png"),
+    /**
+     * 棕色床
+     * */
+    BED_BROWN("棕色床",355,12,"textures/items/bed_brown.png"),
+    /**
+     * 红色床
+     * */
+    BED_RED("红色床",355,14,"textures/items/bed_red.png"),
+    /**
+     * 橙色床
+     * */
+    BED_ORANGE("橙色床",355,1,"textures/items/bed_orange.png"),
+    /**
+     * 黄色床
+     * */
+    BED_YELLOW("黄色床",355,4,"textures/items/bed_yellow.png"),
+    /**
+     * 黄绿色床
+     * */
+    BED_LIME("黄绿色床",355,5,"textures/items/bed_lime.png"),
+    /**
+     * 绿色床
+     * */
+    BED_GREEN("绿色床",355,13,"textures/items/bed_green.png"),
+    /**
+     * 青色床
+     * */
+    BED_CYAN("青色床",355,9,"textures/items/bed_cyan.png"),
+    /**
+     * 淡蓝色床
+     * */
+    BED_LIGHT_BLUE("淡蓝色床",355,3,"textures/items/bed_light_blue.png"),
+    /**
+     * 蓝色床
+     * */
+    BED_BLUE("蓝色床",355,11,"textures/items/bed_blue.png"),
+    /**
+     * 紫色床
+     * */
+    BED_PURPLE("紫色床",355,10,"textures/items/bed_purple.png"),
+    /**
+     * 品红色床
+     * */
+    BED_MAGENTA("品红色床",355,2,"textures/items/bed_magenta.png"),
+    /**
+     * 粉色床
+     * */
+    BED_PINK("粉色床",355,6,"textures/items/bed_pink.png"),
+
     /**
      * 弩
      * */

@@ -17,6 +17,9 @@ import market.utils.*;
 
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.Map;
+
+import static market.sMarket.PLUGIN_NAME;
 
 public class listener implements Listener {
 
@@ -34,25 +37,31 @@ public class listener implements Listener {
                     if("null".equals(data)){
                         return;
                     }else {
-                        switch (Integer.parseInt(data)) {
-                            case 0:
-                                create.sendTypes(player);
-                                break;
-                            case 1:
-                                create.sendItems(player);
-                                break;
-                            case 2:
-                                create.sendSeekItems(player);
-                                break;
-                            case 3:
-                                create.sendBlack(player);
-                                break;
-                            case 4:
-                                create.sendMessage(player);
-                                break;
-                            default:
-                                break;
+                        int uiData = Integer.parseInt(data);
+                        if(sMarket.menu.get("物品市场") instanceof Map) {
+                            sendMenu(player,uiData);
+                        }else{
+                            switch (Integer.parseInt(data)) {
+                                case 0:
+                                    create.sendTypes(player);
+                                    break;
+                                case 1:
+                                    create.sendItems(player);
+                                    break;
+                                case 2:
+                                    create.sendSeekItems(player);
+                                    break;
+                                case 3:
+                                    create.sendBlack(player);
+                                    break;
+                                case 4:
+                                    create.sendMessage(player);
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
+
                     }
                     break;
                     case create.CHOSE:
@@ -109,7 +118,7 @@ public class listener implements Listener {
                                     return;
                                 }
                             }else{
-                                player.sendMessage(sMarket.PLUGIN_NAME+"§c"+item.getName()+"物品不在了");
+                                player.sendMessage(PLUGIN_NAME+"§c"+item.getName()+"物品不在了");
                             }
                         }
                         break;
@@ -128,7 +137,7 @@ public class listener implements Listener {
                                 money = Double.parseDouble((String) datas[4]);
 
                             }catch (Exception e){
-                                player.sendMessage(sMarket.PLUGIN_NAME+"§c请输入正确的价格!!");
+                                player.sendMessage(PLUGIN_NAME+"§c请输入正确的价格!!");
                                 return;
                             }
                             int counts = (int)(double) datas[5];
@@ -180,7 +189,7 @@ public class listener implements Listener {
                                     return;
                                 }
                             }catch (Exception e){
-                                player.sendMessage(sMarket.PLUGIN_NAME+"§c这个物品不在了");
+                                player.sendMessage(PLUGIN_NAME+"§c这个物品不在了");
                                 return;
                             }
                         }
@@ -200,17 +209,17 @@ public class listener implements Listener {
                             try {
                                 d = Double.parseDouble((String) datas[3]);
                             }catch (Exception e){
-                                player.sendMessage(sMarket.PLUGIN_NAME+"§c请输入正确的价格!!");
+                                player.sendMessage(PLUGIN_NAME+"§c请输入正确的价格!!");
                                 return;
                             }
                             if(d > sMarket.getApi().getMaxMoney() || d < sMarket.getApi().getMinMoney()){
-                                player.sendMessage(sMarket.PLUGIN_NAME+"§e"+"§a"+
+                                player.sendMessage(PLUGIN_NAME+"§e"+"§a"+
                                         ItemIDSunName.getIDByName(click)+"§c的单价由不能超过"+sMarket.getApi().getMaxMoney()+"或 小于"+sMarket.getApi().getMinMoney());
                                 return;
                             }
                             int count = (int)(double) datas[4];
                             if(count == 0){
-                                player.sendMessage(sMarket.PLUGIN_NAME+"§c你已取消上架");
+                                player.sendMessage(PLUGIN_NAME+"§c你已取消上架");
                                 return;
                             }
                             String tag = "";
@@ -234,26 +243,53 @@ public class listener implements Listener {
                                 banItem ban = new banItem(item);
                                 if(player.getInventory().contains(item)){
                                     if(Tools.inArray(ban,sMarket.banItems)){
-                                        player.sendMessage(sMarket.PLUGIN_NAME+"§c此物品在黑名单!");
+                                        player.sendMessage(PLUGIN_NAME+"§c此物品在黑名单!");
                                         return ;
                                     }
                                     sMarket.handItem.put(player,item);
                                     create.sendAddSetting(player);
                                     return ;
                                 }else{
-                                    player.sendMessage(sMarket.PLUGIN_NAME+"§c物品不在了");
+                                    player.sendMessage(PLUGIN_NAME+"§c物品不在了");
                                 }
                             }else{
-                                player.sendMessage(sMarket.PLUGIN_NAME+"§c背包数据异常");
+                                player.sendMessage(PLUGIN_NAME+"§c背包数据异常");
                             }
                         }catch (Exception e){
-                            player.sendMessage(sMarket.PLUGIN_NAME+"§c操作异常");
+                            player.sendMessage(PLUGIN_NAME+"§c操作异常");
                         }
 
                     }
                     return;
                     default:break;
             }
+        }
+    }
+
+    private void sendMenu(Player player,int data){
+        LinkedList<String> lists = new LinkedList<>(sMarket.menu.keySet());
+        String name = lists.get(data);
+        if("物品市场".equals(name)){
+            create.sendTypes(player);
+        }else if("我的商品".equals(name)){
+            create.sendItems(player);
+        }else if("查找商品".equals(name)){
+            create.sendSeekItems(player);
+        }else if("黑名单物品".equals(name)){
+            create.sendBlack(player);
+        }else if("市场信息".equals(name)){
+            create.sendMessage(player);
+        }else if("账单".equals(name)){
+            LinkedList<Bill> bills = sMarket.getPlayerBills(player.getName());
+            sMarket.sendBill(player, bills);
+        }else if("背包".equals(name)){
+            if(player.getGamemode() == 1 && !player.isOp()){
+                player.sendMessage(PLUGIN_NAME+"§c创造模式无法上架物品");
+            }
+            if(sMarket.getApi().isBlack(player.getName())){
+                player.sendMessage(PLUGIN_NAME+"§c抱歉，您被管理员拉黑了 无法上架物品 如想继续上架请联系管理员解除限制");
+            }
+            create.sendAddInventory(player);
         }
     }
 }

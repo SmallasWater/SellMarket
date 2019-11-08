@@ -11,11 +11,13 @@ import market.player.pItems;
 
 import java.io.File;
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class Tools {
 
     public static LinkedList<String> strings = new LinkedList<String>(){
         {
+            add("§a普通查找");
             add("§a查询ID");
             add("§6查询名称");
             add("§c查询用户");
@@ -186,72 +188,126 @@ public class Tools {
     public static LinkedList<iTypes> seekItemById(String seek,int type,boolean sort){
         LinkedList<iTypes> linkedList = getItemsAll();
         LinkedList<iTypes> items = new LinkedList<>();
-        for(iTypes item:linkedList){
-            if(type == 0){
-                if(item.getId().matches(getQuery(seek))){
-                    items.add(item);
-                }
-            }else if(type == 1){
-                if(item.getName().matches(getQuery(seek))){
-                    items.add(item);
-                }
-            }else if(type == 2){
-                if(item.getMaster().matches(getQuery(seek))){
-                    items.add(item);
-                }
-            }else if(type == 3){
-                if(item.getMessage().matches(getQuery(seek))){
-                    items.add(item);
-                }
-            }else if(type == 4){
-                if(seek.split("-").length > 1){
-                    double min = Double.parseDouble(seek.split("-")[0].trim());
-                    double max = Double.parseDouble(seek.split("-")[1].trim());
-                    if(item.getMoney() >= min && item.getMoney() < max){
+        if(type == 0){
+            for(iTypes item:linkedList) {
+                if (seek.split(":").length > 1) {
+                    if(item.getId().matches(getQuery(seek))){
                         items.add(item);
                     }
-                }else if(seek.split(">").length > 1){
-                    double max = Double.parseDouble(seek.split(">")[1].trim());
-                    if(item.getMoney() > max){
+                } else {
+                    if (seek.split("-").length > 1
+                            || seek.split(">").length > 1
+                            || seek.split("<").length > 1) {
+                        if(seek.split("-").length > 1){
+                            double min = Double.parseDouble(seek.split("-")[0].trim());
+                            double max = Double.parseDouble(seek.split("-")[1].trim());
+                            if(item.getMoney() >= min && item.getMoney() < max){
+                                items.add(item);
+                                continue;
+                            }
+                        }else if(seek.split(">").length > 1){
+                            double max = Double.parseDouble(seek.split(">")[1].trim());
+                            if(item.getMoney() > max){
+                                items.add(item);
+                                continue;
+                            }
+
+                        }else if(seek.split("<").length > 1){
+                            double max = Double.parseDouble(seek.split("<")[1].trim());
+                            if(item.getMoney() < max){
+                                items.add(item);
+                                continue;
+                            }
+                        } else{
+                            try {
+                                if(item.getMoney() == Double.parseDouble(seek)){
+                                    items.add(item);
+                                    continue;
+                                }
+                            }catch (Exception e){
+                                break;
+                            }
+                        }
+                        if (adds(seek, items, item)) {
+                            break;
+                        }
+                    }else {
+                        try {
+                            if (isNumeric(seek)) {
+                                if (item.getMoney() == Double.parseDouble(seek)) {
+                                    items.add(item);
+                                    continue;
+                                }
+                                if (item.getCount() == Integer.parseInt(seek)) {
+                                    items.add(item);
+                                }
+                            } else {
+                                if (item.getType().matches(getQuery(seek))) {
+                                    items.add(item);
+                                    continue;
+                                }
+                                if (item.getName().matches(getQuery(seek))) {
+                                    items.add(item);
+                                    continue;
+                                }
+                                if (item.getMaster().matches(getQuery(seek))) {
+                                    items.add(item);
+                                    continue;
+                                }
+                                if (item.getMessage().matches(getQuery(seek))) {
+                                    items.add(item);
+                                }
+                            }
+                        } catch (Exception e) {
+                            break;
+                        }
+                    }
+                }
+            }
+        }else{
+            for(iTypes item:linkedList){
+                if(type == 1){
+                    if(item.getId().matches(getQuery(seek))){
                         items.add(item);
                     }
-                }else if(seek.split("<").length > 1){
-                    double max = Double.parseDouble(seek.split("<")[1].trim());
-                    if(item.getMoney() < max){
+                }else if(type == 2){
+                    if(item.getName().matches(getQuery(seek))){
                         items.add(item);
                     }
-                } else{
-                    try {
-                        if(item.getMoney() == Double.parseDouble(seek)){
+                }else if(type == 3){
+                    if(item.getMaster().matches(getQuery(seek))){
+                        items.add(item);
+                    }
+                }else if(type == 4){
+                    if(item.getMessage().matches(getQuery(seek))){
+                        items.add(item);
+                    }
+                }else if(type == 5){
+                    if(seek.split("-").length > 1){
+                        double min = Double.parseDouble(seek.split("-")[0].trim());
+                        double max = Double.parseDouble(seek.split("-")[1].trim());
+                        if(item.getMoney() >= min && item.getMoney() < max){
                             items.add(item);
                         }
-                    }catch (Exception e){
-                        break;
-                    }
-                }
-            }else if(type == 5){
-                if(seek.split("-").length > 1){
-                    int min = Integer.parseInt(seek.split("-")[0].trim());
-                    int max = Integer.parseInt(seek.split("-")[1].trim());
-                    if(item.getCount() >= min && item.getCount() < max){
-                        items.add(item);
-                    }
-                }else if(seek.split(">").length > 1){
-                    int max = Integer.parseInt(seek.split(">")[1].trim());
-                    if(item.getCount() > max){
-                        items.add(item);
-                    }
-                }else if(seek.split("<").length > 1){
-                    int max = Integer.parseInt(seek.split("<")[1].trim());
-                    if(item.getCount() < max){
-                        items.add(item);
-                    }
-                } else{
-                    try {
-                        if(item.getCount() == Integer.parseInt(seek)){
+                    }else if(seek.split(">").length > 1){
+                        double max = Double.parseDouble(seek.split(">")[1].trim());
+                        if(item.getMoney() > max){
                             items.add(item);
                         }
-                    }catch (Exception e){
+                    }else if(seek.split("<").length > 1){
+                        double max = Double.parseDouble(seek.split("<")[1].trim());
+                        if(item.getMoney() < max){
+                            items.add(item);
+                        }
+                    } else{
+                        if(isNumeric(seek)){
+                            if(item.getMoney() == Double.parseDouble(seek)){
+                                items.add(item);
+                            }
+                        }
+                    }
+                }else if(type == 6){
+                    if (adds(seek, items, item)) {
                         break;
                     }
                 }
@@ -270,6 +326,48 @@ public class Tools {
             items.sort(comparator);
         }
         return items;
+    }
+    private static Pattern NUMBER_PATTERN = Pattern.compile("[0-9]+");
+    private static boolean isNumeric(String str){
+        if(str.indexOf(".")>0){
+            if(str.indexOf(".")==str.lastIndexOf(".") && str.split("\\.").length==2){
+                return NUMBER_PATTERN.matcher(str.replace(".","")).matches();
+            }else {
+                return false;
+            }
+        }else {
+            return NUMBER_PATTERN.matcher(str).matches();
+        }
+    }
+
+
+    private static boolean adds(String seek, LinkedList<iTypes> items, iTypes item) {
+        if(seek.split("-").length > 1){
+            int min = Integer.parseInt(seek.split("-")[0].trim());
+            int max = Integer.parseInt(seek.split("-")[1].trim());
+            if(item.getCount() >= min && item.getCount() < max){
+                items.add(item);
+            }
+        }else if(seek.split(">").length > 1){
+            int max = Integer.parseInt(seek.split(">")[1].trim());
+            if(item.getCount() > max){
+                items.add(item);
+            }
+        }else if(seek.split("<").length > 1){
+            int max = Integer.parseInt(seek.split("<")[1].trim());
+            if(item.getCount() < max){
+                items.add(item);
+            }
+        } else{
+            try {
+                if(item.getCount() == Integer.parseInt(seek)){
+                    items.add(item);
+                }
+            }catch (Exception e){
+                return true;
+            }
+        }
+        return false;
     }
 
     public static int getIntByType(String type){

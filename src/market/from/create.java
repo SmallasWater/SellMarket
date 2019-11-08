@@ -16,8 +16,9 @@ import market.utils.banItem;
 import market.utils.seekSetting;
 
 
-import java.util.LinkedHashMap;
+
 import java.util.LinkedList;
+import java.util.Map;
 
 public class create {
 
@@ -62,23 +63,20 @@ public class create {
     static final int ADD_INVENTORY = 0xAAA0014;
 
 
-    private static LinkedHashMap<String,String> menu = new LinkedHashMap<String, String>(){
-        {
-            put("物品市场","textures/ui/MashupIcon");
-            put("我的商品","textures/ui/Friend2");
-            put("查找商品","textures/ui/magnifyingGlass");
-            put("黑名单物品","textures/blocks/barrier");
-            put("市场信息","textures/ui/mute_off");
-        }
-    };
-
 
     /** 主页菜单*/
     public static void sendMenu(Player player){
         FormWindowSimple simple = new FormWindowSimple(sMarket.PLUGIN_NAME+"--主页",
                 sMarket.getApi().config.getString("自定义公告").replace("{换行}","\n"));
-        for(String s:menu.keySet()){
-            simple.addButton(new ElementButton(s,new ElementButtonImageData("path",menu.get(s))));
+        for(String s:sMarket.menu.keySet()){
+            Object obj = sMarket.menu.get(s);
+            if(obj instanceof Map){
+                String message = (String) ((Map)obj).get("别名");
+                String path = (String) ((Map)obj).get("图标路径");
+                simple.addButton(new ElementButton(message,getImage(path)));
+            }else if(obj instanceof String){
+                simple.addButton(new ElementButton(s,getImage((String) sMarket.menu.get(s))));
+            }
         }
         send(player,simple,MENU);
     }
@@ -238,7 +236,7 @@ public class create {
     static void sendTypes(Player player){
         FormWindowSimple simple = new FormWindowSimple(sMarket.PLUGIN_NAME+"--分类","");
         for(String type:sMarket.sType.keySet()){
-            simple.addButton(new ElementButton(type,new ElementButtonImageData("path",sMarket.sType.get(type))));
+            simple.addButton(new ElementButton(type,getImage(sMarket.sType.get(type))));
         }
         send(player,simple,TYPES);
     }
@@ -291,6 +289,14 @@ public class create {
         send(player,simple,BILL);
     }
 
+    private static ElementButtonImageData getImage(String path){
+        String type = "path";
+        if(path.split("@").length > 1){
+            type = path.split("@")[1];
+            path = path.split("@")[0];
+        }
+        return new ElementButtonImageData(type,path);
+    }
 
     private static void send(Player player, FormWindow window, int id){
         player.showFormWindow(window,id);

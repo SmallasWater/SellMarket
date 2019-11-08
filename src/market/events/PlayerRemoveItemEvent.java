@@ -13,7 +13,7 @@ public class PlayerRemoveItemEvent extends PlayerEvent implements Cancellable {
         return HANDLER_LIST;
     }
 
-    public iTypes types;
+    private iTypes types;
 
     public PlayerRemoveItemEvent(Player player, iTypes types){
         this.player = player;

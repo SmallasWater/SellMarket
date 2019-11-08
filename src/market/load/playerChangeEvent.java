@@ -18,7 +18,6 @@ import market.utils.Bill;
 import market.utils.ItemIDSunName;
 import market.sMarket;
 import java.io.File;
-import java.util.Date;
 
 public class playerChangeEvent implements Listener {
 
@@ -93,7 +92,7 @@ public class playerChangeEvent implements Listener {
     public void onRemove(PlayerRemoveItemEvent event){
         Player player = event.getPlayer();
         pItems items = pItems.getInstance(player.getName());
-        iTypes newI = event.types;
+        iTypes newI = event.getTypes();
         Item newItem = newI.getItem();
 
         iTypes old = items.inArray(newI);
@@ -123,7 +122,11 @@ public class playerChangeEvent implements Listener {
     @EventHandler
     public void onSetting(PlayerSettingItemEvent event){
         Player player = event.getPlayer();
-        iTypes types = event.types;
+        if(sMarket.getApi().isBlack(player.getName())){
+            player.sendMessage(sMarket.PLUGIN_NAME+"§c抱歉，您被管理员拉黑了 无法修改商品 如想继续修改请联系管理员解除限制");
+            return;
+        }
+        iTypes types = event.getTypes();
         iTypes clicks = sMarket.clickItem.get(player);
         player.awardAchievement("setItem");
         pItems items = pItems.getInstance(player.getName());

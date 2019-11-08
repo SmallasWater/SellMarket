@@ -20,11 +20,12 @@ import updata.utils.UpData;
 import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 
 public class sMarket extends PluginBase {
 
-    public static final String PLUGIN_NAME = "§7[§cS§6e§el§al§bM§9a§dr§ck§6e§et§7]";
+    public static String PLUGIN_NAME = "§7[§cS§6e§el§al§bM§9a§dr§ck§6e§et§7]";
 
     private static sMarket api;
 
@@ -58,30 +59,28 @@ public class sMarket extends PluginBase {
     private static LinkedHashMap<String, LinkedList<Bill>> playerBill = new LinkedHashMap<>();
 
 
+    private static LinkedHashMap<String,Object> lastMenu = new LinkedHashMap<String, Object>(){
+        {
+            put("物品市场","textures/ui/MashupIcon");
+            put("我的商品","textures/ui/Friend2");
+            put("查找商品","textures/ui/magnifyingGlass");
+            put("黑名单物品","textures/blocks/barrier");
+            put("市场信息","textures/ui/mute_off");
+        }
+    };
+
+    public static LinkedHashMap<String,Object> menu = new LinkedHashMap<>();
+
     public static loadMoney money;
 
-    private static boolean onUpData = false;
-
-    public static String upName;
 
 
 
     @Override
     public void onEnable() {
         api = this;
-        if(Server.getInstance().getPluginManager().getPlugin("AutoUpData") != null){
-            UpData data = AutoData.get(this,this.getFile(),"SmallasWater","SellMarket");
-            if(data != null){
-                if(data.canUpdate()){
-                    this.getLogger().info("检测到新版本 v"+data.getNewVersion());
-                    this.getLogger().info("更新内容: "+data.getNewVersionMessage());
-                    if(!data.toUpData()){
-                        this.getLogger().info("更新失败");
-                    }
-                }
-            }else{
-                this.getLogger().info("更新检查失败");
-            }
+        if(!upData()){
+            return;
         }
         saveDefaultConfig();
         saveBlack();
@@ -100,7 +99,15 @@ public class sMarket extends PluginBase {
         long t1 = System.currentTimeMillis();
         money = new loadMoney();
         playerItems = Tools.getPlayerConfigs();
-
+        LinkedHashMap<String,Object> map = loadMenu();
+        if(map.size() > 0){
+            menu = map;
+        }else{
+            menu = lastMenu;
+        }
+        if(!"".equals(config.getString("标题"))){
+            PLUGIN_NAME = config.getString("标题");
+        }
         File adminFile = new File(this.getDataFolder()+"/admins.yml");
         if(!adminFile.exists()){
             saveResource("admins.yml");
@@ -132,7 +139,30 @@ public class sMarket extends PluginBase {
 
     }
 
-    private static LinkedList<Bill>getPlayerBills(String playerName) {
+    private boolean upData(){
+        if(Server.getInstance().getPluginManager().getPlugin("AutoUpData") != null){
+            UpData data = AutoData.get(this,this.getFile(),"SmallasWater","SellMarket");
+            if(data != null){
+                if(data.canUpdate()){
+                    this.getLogger().info("检测到新版本 v"+data.getNewVersion());
+                    String message = data.getNewVersionMessage();
+                    for(String info : message.split("\\n")){
+                        this.getLogger().info("更新内容: "+info);
+                    }
+                    if(!data.toUpData()){
+                        this.getLogger().info("更新失败");
+                    }else{
+                        return false;
+                    }
+                }
+            }else{
+                this.getLogger().info("更新检查失败");
+            }
+        }
+        return true;
+    }
+
+    public static LinkedList<Bill>getPlayerBills(String playerName) {
         if(playerBill.containsKey(playerName)){
             return playerBill.get(playerName);
         }
@@ -143,8 +173,16 @@ public class sMarket extends PluginBase {
         return new LinkedList<>(adminConfig.getStringList("ops"));
     }
 
+    private LinkedList<String>getBanPlayers() {
+        return new LinkedList<>(adminMenu.getStringList("BanPlayers"));
+    }
+
     public boolean isAdmin(String name){
         return getAdmins().contains(name);
+    }
+
+    public boolean isBlack(String name){
+        return getBanPlayers().contains(name);
     }
 
     private LinkedList<String>getAdminsMenus() {
@@ -155,6 +193,7 @@ public class sMarket extends PluginBase {
         return getAdminsMenus().contains(name);
     }
 
+
     private void changeAdmin(String name){
         LinkedList<String> strings = getAdmins();
         if(strings.contains(name)){
@@ -164,6 +203,28 @@ public class sMarket extends PluginBase {
         }
         adminConfig.set("ops",strings);
         adminConfig.save();
+    }
+
+    private void changeBanPlayers(String name){
+        LinkedList<String> strings = getBanPlayers();
+        if(strings.contains(name)){
+            strings.remove(name);
+        }else {
+            strings.add(name);
+        }
+        adminMenu.set("BanPlayers",strings);
+        adminMenu.save();
+    }
+
+    private LinkedHashMap<String,Object> loadMenu(){
+        Map map = (Map) config.get("主页");
+        LinkedHashMap<String,Object> menus = new LinkedHashMap<>();
+        if(map != null){
+            for (Object o : map.keySet()){
+                menus.put(o.toString(), map.get(o));
+            }
+        }
+        return menus;
     }
 
     public static void addBile(String playerName,Bill bill){
@@ -215,6 +276,7 @@ public class sMarket extends PluginBase {
                         sender.sendMessage("§b/sm §abill §7查询近期的账单");
                         if(sender.isOp()){
                             sender.sendMessage("§b/sm §ablack §7添加/删除手持物品到黑名单");
+                            sender.sendMessage("§b/sm §aban <玩家> §7将玩家加入黑名单");
                             sender.sendMessage("§b/sm §aadmin <玩家> §7添加/删除 无限物品玩家");
                         }
                         sender.sendMessage("§l§6================================");
@@ -231,6 +293,10 @@ public class sMarket extends PluginBase {
                                     sender.sendMessage(PLUGIN_NAME+"§c此物品在黑名单!");
                                     return true;
                                 }
+                                if(isBlack(sender.getName())){
+                                    sender.sendMessage(PLUGIN_NAME+"§c抱歉，您被管理员拉黑了 无法上架物品 如想继续上架请联系管理员解除限制");
+                                    return true;
+                                }
                                 handItem.put((Player) sender,item.getItem());
                                 create.sendAddSetting((Player) sender);
                             }else {
@@ -241,10 +307,30 @@ public class sMarket extends PluginBase {
                             sender.sendMessage("请在游戏内执行");
                         }
                         break;
+                    case "ban": case "拉黑":
+                        if(!sender.isOp()){
+                            return false;
+                        }
+                        if(args.length > 1){
+                            if(isBlack(args[1])){
+                                sender.sendMessage(PLUGIN_NAME+"§e 移除黑名单玩家"+args[1]+"成功");
+                            }else{
+                                sender.sendMessage(PLUGIN_NAME+"§e 增加黑名单玩家"+args[1]+"成功");
+                            }
+                            changeBanPlayers(args[1]);
+                        }else{
+                            return false;
+                        }
+
+                        break;
                     case "inv": case "背包":
                         if(sender instanceof Player){
                             if(((Player) sender).getGamemode() == 1 && !sender.isOp()){
                                 sender.sendMessage(PLUGIN_NAME+"§c创造模式无法上架物品");
+                                return true;
+                            }
+                            if(isBlack(sender.getName())){
+                                sender.sendMessage(PLUGIN_NAME+"§c抱歉，您被管理员拉黑了 无法上架物品 如想继续上架请联系管理员解除限制");
                                 return true;
                             }
                             create.sendAddInventory((Player) sender);
@@ -312,15 +398,7 @@ public class sMarket extends PluginBase {
                     case "账单": case "bill":
                         if(sender instanceof Player){
                             LinkedList<Bill> bills = getPlayerBills(sender.getName());
-                            if(bills.size() > 0){
-                                StringBuilder builder = new StringBuilder();
-                                for (Bill bill:bills) {
-                                    builder.append(bill.toString());
-                                }
-                                create.sendBill((Player) sender,builder.toString());
-                            }else{
-                                sender.sendMessage(PLUGIN_NAME+"§7近期没有账单哦");
-                            }
+                            sendBill(sender, bills);
                         }else{
                             sender.sendMessage("控制台没有账单");
                         }
@@ -336,6 +414,18 @@ public class sMarket extends PluginBase {
             }
         }
         return true;
+    }
+
+    public static void sendBill(CommandSender sender, LinkedList<Bill> bills) {
+        if(bills.size() > 0){
+            StringBuilder builder = new StringBuilder();
+            for (Bill bill:bills) {
+                builder.append(bill.toString());
+            }
+            create.sendBill((Player) sender,builder.toString());
+        }else{
+            sender.sendMessage(PLUGIN_NAME+"§7近期没有账单哦");
+        }
     }
 
     public static sMarket getApi() {
