@@ -68,7 +68,7 @@ public class loadMoney {
         reduceMoney(player.getName(), money);
     }
 
-    private void reduceMoney(String player, double money){
+    void reduceMoney(String player, double money){
         switch (this.money){
             case MONEY:
                 if(Money.getInstance().getPlayers().contains(player)){

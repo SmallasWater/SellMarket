@@ -198,32 +198,38 @@ public class playerChangeEvent implements Listener {
                 }
                 double money = (iType.count * iType.money);
                 if(sMarket.money.myMoney(player) >= money){
-                    if(!sMarket.getApi().isAdmin(old.master)){
-                        items.removeSellItem(iType);
-                    }
                     sMarket.money.reduceMoney(player,money);
                     String sellType;
                     items.save();
                     Player master = Server.getInstance().getPlayer(old.master);
                     player.awardAchievement("BuyItem");
-                    if(master != null){
-                        master.sendMessage(sMarket.PLUGIN_NAME+"§e"+player.getName()+"购买了你的 §a"+
-                                ItemIDSunName.getIDByName(newItem)+"§7获得 "+sMarket.money.getMonetaryUnit()+money);
-                    }
                     if(player.getInventory().canAddItem(newItem)){
                         if(sMarket.money.addMoney(old.master,money)){
                             player.getInventory().addItem(newItem);
                             sellType = "§a交易成功";
                         }else{
                             sellType = "§c交易异常(金钱增加失败)";
+                            sendError(event, player, buyer, seller, old, money, sellType, master);
+                            return;
                         }
-
                     }else{
                         if(sMarket.money.addMoney(old.master,money)){
+                            sMarket.money.reduceMoney(old.master,money);
                             sellType = "§c交易异常(物品给予失败)";
+                            sendError(event, player, buyer, seller, old, money, sellType, master);
+                            return;
                         }else{
                             sellType = "§c交易异常(金钱增加失败,物品给予失败)";
+                            sendError(event, player, buyer, seller, old, money, sellType, master);
+                            return;
                         }
+                    }
+                    if(master != null){
+                        master.sendMessage(sMarket.PLUGIN_NAME+"§e"+player.getName()+"购买了你的 §a"+
+                                ItemIDSunName.getIDByName(newItem)+"§7获得 "+sMarket.money.getMonetaryUnit()+money);
+                    }
+                    if(!sMarket.getApi().isAdmin(old.master)){
+                        items.removeSellItem(iType);
                     }
                     buyer.setSellType(sellType);
                     seller.setSellType(sellType);
@@ -231,6 +237,7 @@ public class playerChangeEvent implements Listener {
                     sMarket.addBile(old.master,seller);
                     player.sendMessage(sMarket.PLUGIN_NAME+"§e"+"§a"+
                             ItemIDSunName.getIDByName(newItem)+"§d购买成功!! 花费: "+(sMarket.money.getMonetaryUnit())+money);
+
                 }else{
                     buyer.setSellType("§c交易失败 (金钱不足)");
                     seller.setSellType("§c交易失败 (金钱不足)");
@@ -251,6 +258,16 @@ public class playerChangeEvent implements Listener {
                     ItemIDSunName.getIDByName(newItem)+"§c没有了哦~~");
         }
 
+    }
+
+    private void sendError(PlayerBuyItemEvent event, Player player, Bill buyer, Bill seller, iTypes old, double money, String sellType, Player master) {
+        sMarket.money.addMoney(player,money);
+        event.setCancelled();
+        master.sendMessage(sMarket.PLUGIN_NAME+"§c抱歉，，交易出现了一些问题..具体原因请输/sm bill查看 §e金钱已返还");
+        buyer.setSellType(sellType);
+        seller.setSellType(sellType);
+        sMarket.addBile(player.getName(),buyer);
+        sMarket.addBile(old.master,seller);
     }
 
 }
