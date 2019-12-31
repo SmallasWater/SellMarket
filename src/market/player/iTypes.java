@@ -36,7 +36,7 @@ public class iTypes implements Cloneable{
     }
 
     public iTypes(String master,String type,String id,int count,double money,String tag){
-        this(master,type,id,count,money,tag,"欢迎购买");
+        this(master,type,id,count,money,tag,"Welcome to the market");
     }
 
     public iTypes(String master,String type,String id,int count,double money,String tag,String message,String showName){

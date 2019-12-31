@@ -17,13 +17,13 @@ public class Tools {
 
     public static LinkedList<String> strings = new LinkedList<String>(){
         {
-            add("§a普通查找");
-            add("§a查询ID");
-            add("§6查询名称");
-            add("§c查询用户");
-            add("§e查询简介");
-            add("§b查询价格");
-            add("§d查询数量");
+            add("§aOrdinary Search");
+            add("§aSearch ID");
+            add("§6Search Name");
+            add("§cSearch Player");
+            add("§eSearch Description");
+            add("§bSearch Price");
+            add("§dSearch Amounts");
 
         }
     };
@@ -64,7 +64,7 @@ public class Tools {
     public static LinkedHashMap<String,String> getType(){
         LinkedHashMap<String,String> linkedHashMap = new LinkedHashMap<>();
         Config config = sMarket.getApi().config;
-        Map map = (Map) config.get("自定义分类");
+        Map map = (Map) config.get("Custom Class");
         if(map != null){
             for(Object o:map.keySet()){
                 if(o instanceof String){
@@ -75,11 +75,11 @@ public class Tools {
                 }
             }
         }else{
-            linkedHashMap.put("方块","textures/blocks/brick");
-            linkedHashMap.put("工具","textures/items/diamond_pickaxe");
-            linkedHashMap.put("食物","textures/items/bread");
-            linkedHashMap.put("其他","textures/ui/inventory_icon");
-            config.set("自定义分类",linkedHashMap);
+            linkedHashMap.put("Block","textures/blocks/brick");
+            linkedHashMap.put("Tool","textures/items/diamond_pickaxe");
+            linkedHashMap.put("Food","textures/items/bread");
+            linkedHashMap.put("Other","textures/ui/inventory_icon");
+            config.set("Custom Class",linkedHashMap);
             config.save();
         }
 

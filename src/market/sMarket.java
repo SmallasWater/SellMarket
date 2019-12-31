@@ -61,11 +61,11 @@ public class sMarket extends PluginBase {
 
     private static LinkedHashMap<String,Object> lastMenu = new LinkedHashMap<String, Object>(){
         {
-            put("物品市场","textures/ui/MashupIcon");
-            put("我的商品","textures/ui/Friend2");
-            put("查找商品","textures/ui/magnifyingGlass");
-            put("黑名单物品","textures/blocks/barrier");
-            put("市场信息","textures/ui/mute_off");
+            put("Item Market","textures/ui/MashupIcon");
+            put("My Items","textures/ui/Friend2");
+            put("Search Items","textures/ui/magnifyingGlass");
+            put("Blacklisted Items","textures/blocks/barrier");
+            put("Market Information","textures/ui/mute_off");
         }
     };
 
@@ -88,14 +88,14 @@ public class sMarket extends PluginBase {
         File file = new File(this.getDataFolder()+"/Players");
         if(!file.exists()){
             if(!file.mkdirs()){
-                Server.getInstance().getLogger().info(PLUGIN_NAME+"创建/Players/文件夹失败");
+                Server.getInstance().getLogger().info(PLUGIN_NAME+"Create /Players/ Folder Failed");
             }
         }
         this.config = getConfig();
         sType = Tools.getType();
         this.black = new Config(this.getDataFolder()+"/blackItems.yml",Config.YAML);
         //缓存
-        Server.getInstance().getLogger().info(PLUGIN_NAME+"初始化..玩家商店");
+        Server.getInstance().getLogger().info(PLUGIN_NAME+"Starting..Sell Market");
         long t1 = System.currentTimeMillis();
         money = new loadMoney();
         playerItems = Tools.getPlayerConfigs();
@@ -105,8 +105,8 @@ public class sMarket extends PluginBase {
         }else{
             menu = lastMenu;
         }
-        if(!"".equals(config.getString("标题"))){
-            PLUGIN_NAME = config.getString("标题");
+        if(!"".equals(config.getString("Title"))){
+            PLUGIN_NAME = config.getString("Title");
         }
         File adminFile = new File(this.getDataFolder()+"/admins.yml");
         if(!adminFile.exists()){
@@ -122,17 +122,17 @@ public class sMarket extends PluginBase {
 
         long t2 = System.currentTimeMillis();
 
-        Server.getInstance().getLogger().info(PLUGIN_NAME+"玩家商店初始化完成 用时:"+((t2 - t1) % (1000 * 60))+"ms");
+        Server.getInstance().getLogger().info(PLUGIN_NAME+"SellMarket load complete, time used:"+((t2 - t1) % (1000 * 60))+"ms");
 
-        for(String s:black.getStringList("封禁物品")){
+        for(String s:black.getStringList("Baned Item")){
             banItems.add(banItem.toItem(s));
         }
         //初始化成就
-        Achievement.add("SellMarket",new Achievement("§d更多的商店"));
-        Achievement.add("AddItem",new Achievement("§b第一件商品!"));
-        Achievement.add("BuyItem",new Achievement("§d交易第一单!"));
-        Achievement.add("admins",new Achievement("§l§e管理员了不起啊"));
-        Achievement.add("setItem",new Achievement("§c不合理的商品"));
+        Achievement.add("SellMarket",new Achievement("§More Shop"));
+        Achievement.add("AddItem",new Achievement("§bFirest Item!"));
+        Achievement.add("BuyItem",new Achievement("§dFirest Deal!"));
+        Achievement.add("admins",new Achievement("§l§eAdmin is excellent!"));
+        Achievement.add("setItem",new Achievement("§cItem not suitable!"));
 
         this.getServer().getPluginManager().registerEvents(new playerChangeEvent(),this);
         this.getServer().getPluginManager().registerEvents(new listener(),this);
@@ -144,19 +144,19 @@ public class sMarket extends PluginBase {
             UpData data = AutoData.get(this,this.getFile(),"SmallasWater","SellMarket");
             if(data != null){
                 if(data.canUpdate()){
-                    this.getLogger().info("检测到新版本 v"+data.getNewVersion());
+                    this.getLogger().info("New Version Detected v"+data.getNewVersion());
                     String message = data.getNewVersionMessage();
                     for(String info : message.split("\\n")){
-                        this.getLogger().info("更新内容: "+info);
+                        this.getLogger().info("What is new:"+info);
                     }
                     if(!data.toUpData()){
-                        this.getLogger().info("更新失败");
+                        this.getLogger().info("Update failed");
                     }else{
                         return false;
                     }
                 }
             }else{
-                this.getLogger().info("更新检查失败");
+                this.getLogger().info("Update check failed");
             }
         }
         return true;
@@ -217,7 +217,7 @@ public class sMarket extends PluginBase {
     }
 
     private LinkedHashMap<String,Object> loadMenu(){
-        Map map = (Map) config.get("主页");
+        Map map = (Map) config.get("Home page");
         LinkedHashMap<String,Object> menus = new LinkedHashMap<>();
         if(map != null){
             for (Object o : map.keySet()){
@@ -238,19 +238,19 @@ public class sMarket extends PluginBase {
     }
 
     public int getCountMax(){
-        return this.config.getInt("物品数量最大值",120);
+        return this.config.getInt("Item max amount",120);
     }
 
     public double getMinMoney(){
-        return (double) this.config.getInt("单价最小值");
+        return (double) this.config.getInt("Least Price for Single Item");
     }
 
     public double getMaxMoney(){
-        return (double) this.config.getInt("单价最大值");
+        return (double) this.config.getInt("Max Price for Single Item");
     }
 
     public double getMaxCount(){
-        return (double) this.config.getInt("玩家上架限制");
+        return (double) this.config.getInt("Player restrictions for number of items on the market");
     }
 
     private void saveBlack(){
@@ -265,57 +265,57 @@ public class sMarket extends PluginBase {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if("sm".equals(command.getName()) || "交易".equals(command.getName())){
+        if("sm".equals(command.getName()) || "transaction".equals(command.getName())){
             if(args.length > 0){
                 switch (args[0]){
-                    case "help": case "帮助":
+                    case "help":
                         sender.sendMessage("§l§6=========="+PLUGIN_NAME+"§6==========");
-                        sender.sendMessage("§b/sm §ahelp §7查看帮助");
-                        sender.sendMessage("§b/sm §aadd §7添加手持物品到市场");
-                        sender.sendMessage("§b/sm §ainv §7打开背包物品列表GUI");
-                        sender.sendMessage("§b/sm §abill §7查询近期的账单");
+                        sender.sendMessage("§b/sm §ahelp §7Help");
+                        sender.sendMessage("§b/sm §aadd §7Adding handheld items to the market");
+                        sender.sendMessage("§b/sm §ainv §7Open Backpack Item List GUI");
+                        sender.sendMessage("§b/sm §abill §7Query recent bills");
                         if(sender.isOp()){
-                            sender.sendMessage("§b/sm §ablack §7添加/删除手持物品到黑名单");
-                            sender.sendMessage("§b/sm §aban <玩家> §7将玩家加入黑名单");
-                            sender.sendMessage("§b/sm §aadmin <玩家> §7添加/删除 无限物品玩家");
+                            sender.sendMessage("§b/sm §ablack §7Add / remove handheld items to blacklist");
+                            sender.sendMessage("§b/sm §aban <Player> §7Add Player to blacklist");
+                            sender.sendMessage("§b/sm §aadmin <Player> §7Add / Remove Unlimited Items Player");
                         }
                         sender.sendMessage("§l§6================================");
                         break;
-                    case "添加": case "add":
+                    case "add":
                         if(sender instanceof Player){
                             if(((Player) sender).getGamemode() == 1 && !sender.isOp()){
-                                sender.sendMessage(PLUGIN_NAME+"§c创造模式无法上架物品");
+                                sender.sendMessage(PLUGIN_NAME+"§cIn Creative Mode Cannot Add Items to List");
                                 return true;
                             }
                             banItem item = new banItem(((Player) sender).getInventory().getItemInHand());
                             if(item.getItem().getId() != 0){
                                 if(Tools.inArray(item,banItems)){
-                                    sender.sendMessage(PLUGIN_NAME+"§c此物品在黑名单!");
+                                    sender.sendMessage(PLUGIN_NAME+"§cThis item is on the blacklist!");
                                     return true;
                                 }
                                 if(isBlack(sender.getName())){
-                                    sender.sendMessage(PLUGIN_NAME+"§c抱歉，您被管理员拉黑了 无法上架物品 如想继续上架请联系管理员解除限制");
+                                    sender.sendMessage(PLUGIN_NAME+"§cSorry, you have been blacklisted by the administrator and cannot add items to the market. If you want to continue selling items, please contact the administrator to remove the restriction.");
                                     return true;
                                 }
                                 handItem.put((Player) sender,item.getItem());
                                 create.sendAddSetting((Player) sender);
                             }else {
-                                sender.sendMessage(PLUGIN_NAME+"§c请手持物品");
+                                sender.sendMessage(PLUGIN_NAME+"§cPlease help items in hand");
                             }
 
                         }else{
-                            sender.sendMessage("请在游戏内执行");
+                            sender.sendMessage("Please use the command in game");
                         }
                         break;
-                    case "ban": case "拉黑":
+                    case "ban":
                         if(!sender.isOp()){
                             return false;
                         }
                         if(args.length > 1){
                             if(isBlack(args[1])){
-                                sender.sendMessage(PLUGIN_NAME+"§e 移除黑名单玩家"+args[1]+"成功");
+                                sender.sendMessage(PLUGIN_NAME+"§e Remove blcaklisted Player"+args[1]+"Success");
                             }else{
-                                sender.sendMessage(PLUGIN_NAME+"§e 增加黑名单玩家"+args[1]+"成功");
+                                sender.sendMessage(PLUGIN_NAME+"§e Add blacklisted Player"+args[1]+"Success");
                             }
                             changeBanPlayers(args[1]);
                         }else{
@@ -323,14 +323,14 @@ public class sMarket extends PluginBase {
                         }
 
                         break;
-                    case "inv": case "背包":
+                    case "inv":
                         if(sender instanceof Player){
                             if(((Player) sender).getGamemode() == 1 && !sender.isOp()){
-                                sender.sendMessage(PLUGIN_NAME+"§c创造模式无法上架物品");
+                                sender.sendMessage(PLUGIN_NAME+"§cIn Creative Mode Cannot Add Items to List");
                                 return true;
                             }
                             if(isBlack(sender.getName())){
-                                sender.sendMessage(PLUGIN_NAME+"§c抱歉，您被管理员拉黑了 无法上架物品 如想继续上架请联系管理员解除限制");
+                                sender.sendMessage(PLUGIN_NAME+"§cSorry, you have been blacklisted by the administrator and cannot add items to the market. If you want to continue selling items, please contact the administrator to remove the restriction.");
                                 return true;
                             }
                             create.sendAddInventory((Player) sender);
@@ -338,7 +338,7 @@ public class sMarket extends PluginBase {
                             return false;
                         }
                         break;
-                    case "黑名单": case "black": case "ab": case "添加黑名单": case "rb": case "移除黑名单":
+                    case "black": case "ab":case "rb":
                         if(sender instanceof Player){
                             if(!sender.isOp()){
                                 return false;
@@ -346,8 +346,8 @@ public class sMarket extends PluginBase {
                             banItem item = banItem.get(((Player) sender).getInventory().getItemInHand());
 
                             if(Tools.inArray(item,banItems)){
-                                if("ab".equals(args[0]) || "添加黑名单".equals(args[0])){
-                                    sender.sendMessage(PLUGIN_NAME+"§c"+item.getName()+"存在列表");
+                                if("ab".equals(args[0]) || "Add to BlackList".equals(args[0])){
+                                    sender.sendMessage(PLUGIN_NAME+"§c"+item.getName()+"List Exist");
                                     break;
                                 }
                                 LinkedList<banItem> items = new LinkedList<>();
@@ -358,34 +358,34 @@ public class sMarket extends PluginBase {
                                     items.add(item1);
                                 }
                                 banItems = items;
-                                sender.sendMessage(PLUGIN_NAME+"§a"+item.getName()+"移除成功!");
+                                sender.sendMessage(PLUGIN_NAME+"§a"+item.getName()+"Successfully Removed!");
                             }else{
-                                if("删除黑名单".equals(args[0]) || "rb".equals(args[0])){
-                                    sender.sendMessage(PLUGIN_NAME+"§c"+item.getName()+"不在列表..");
+                                if("rb".equals(args[0])){
+                                    sender.sendMessage(PLUGIN_NAME+"§c"+item.getName()+"Not in the market..");
                                     break;
                                 }
                                 banItems.add(item);
                                 Server.getInstance().getLogger().info("blackItems:"+banItems.toString());
-                                sender.sendMessage(PLUGIN_NAME+"§a"+item.getName()+"添加成功!");
+                                sender.sendMessage(PLUGIN_NAME+"§a"+item.getName()+"Added Successfully!");
                             }
                             LinkedList<String> bans = new LinkedList<>();
                             for(banItem ban:banItems){
                                 bans.add(ban.toString());
                             }
-                            black.set("封禁物品",bans);
+                            black.set("Baned Item",bans);
                             black.save();
 
                         }else{
-                            sender.sendMessage(PLUGIN_NAME+"§c(请不要用控制台执行)");
+                            sender.sendMessage(PLUGIN_NAME+"§c(Please don't use this in console)");
                         }
                         break;
-                    case "admin": case "管理":
+                    case "admin":
                         if(sender.isOp()){
                             if(args.length > 1){
                                 if(isAdmin(args[1])){
-                                    sender.sendMessage(PLUGIN_NAME+"§e 移除管理者"+args[1]+"成功");
+                                    sender.sendMessage(PLUGIN_NAME+"§e Remove Admin"+args[1]+"Success!");
                                 }else{
-                                    sender.sendMessage(PLUGIN_NAME+"§e 增加管理者"+args[1]+"成功");
+                                    sender.sendMessage(PLUGIN_NAME+"§e Add Admin"+args[1]+"Success!");
                                 }
                                 changeAdmin(args[1]);
                             }else{
@@ -395,12 +395,12 @@ public class sMarket extends PluginBase {
                             return false;
                         }
                         break;
-                    case "账单": case "bill":
+                    case "bill":
                         if(sender instanceof Player){
                             LinkedList<Bill> bills = getPlayerBills(sender.getName());
                             sendBill(sender, bills);
                         }else{
-                            sender.sendMessage("控制台没有账单");
+                            sender.sendMessage("No bill in console");
                         }
                         break;
                         default:return false;
@@ -424,7 +424,7 @@ public class sMarket extends PluginBase {
             }
             create.sendBill((Player) sender,builder.toString());
         }else{
-            sender.sendMessage(PLUGIN_NAME+"§7近期没有账单哦");
+            sender.sendMessage(PLUGIN_NAME+"§7No bills recently.");
         }
     }
 

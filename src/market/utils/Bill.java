@@ -9,8 +9,8 @@ import java.util.Date;
 
 public class Bill {
 
-    public static final String SELL = "出售";
-    public static final String BUY = "购买";
+    public static final String SELL = "Sell";
+    public static final String BUY = "Buy";
     private Date date;
     private String playerName,type,itemName,sellType;
     private int money;
@@ -37,23 +37,23 @@ public class Bill {
         StringBuilder builder = new StringBuilder();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd/ HH:mm:ss");
         String date = dateFormat.format(this.date);
-        builder.append("|§7时间: §r").append(date).append("\n");
-        builder.append("|§7类型: §r").append(this.type).append("\n");
-        builder.append("|§7交互玩家: §r").append(this.playerName);
+        builder.append("|§7Time: §r").append(date).append("\n");
+        builder.append("|§7Type: §r").append(this.type).append("\n");
+        builder.append("|§7Interact with player: §r").append(this.playerName);
         if(Server.getInstance().getPlayer(this.playerName) != null){
-            builder.append(" §a[在线]").append("\n");
+            builder.append(" §a[Online]").append("\n");
         }else{
-            builder.append(" §c[离线]").append("\n");
+            builder.append(" §c[Offline]").append("\n");
         }
-        builder.append("|§7").append(this.type).append("物品: §r");
+        builder.append("|§7").append(this.type).append("Item: §r");
         if(this.itemName.split("\\n").length > 1){
             builder.append("\n").append(this.itemName).append("\n");
         }else{
             builder.append(this.itemName).append("\n");
         }
-        builder.append("|§7数量: §r").append(this.count).append("\n");
-        builder.append("|§7金钱: §r").append(money.getMonetaryUnit()).append(this.money).append("\n");
-        builder.append("|§7交易状态: §r").append(this.sellType).append("\n");
+        builder.append("|§7Amount: §r").append(this.count).append("\n");
+        builder.append("|§7Money: §r").append(money.getMonetaryUnit()).append(this.money).append("\n");
+        builder.append("|§7Transaction Status: §r").append(this.sellType).append("\n");
         builder.append("§r---------------------------------\n");
         return builder.toString();
     }
