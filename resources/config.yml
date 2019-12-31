@@ -1,34 +1,34 @@
-Player restrictions for number of items on the market: 5
-Cunstom Post: "欢迎使用"
-Max Price for Single Item: 100
-Least Price for Single Item: 10
-Item max amount: 256
+玩家上架限制: 5
+自定义公告: "欢迎使用"
+单价最大值: 100
+单价最小值: 10
+物品数量最大值: 256
 # 只允许修改主页的名称 和 图片路径
 # 请不要更改顺序!!!!
-Title: "§7[§cS§6e§el§al§bM§9a§dr§ck§6e§et§7]"
-Home page:
-  Item Market:
-    Alias: "物品市场"
-    path to icon: "textures/ui/MashupIcon"
-  My Items:
-    Alias: "我的商品"
-    path to icon: "textures/ui/Friend2"
-  Search Items:
-    Alias: "查找商品"
-    path to icon: "textures/ui/magnifyingGlass"
-  Blacklisted Items:
-    Alias: "黑名单物品"
-    path to icon: "textures/blocks/barrier"
-  Market Information:
-    Alias: "市场信息"
-    path to icon: "textures/ui/mute_off"
+标题: "§7[§cS§6e§el§al§bM§9a§dr§ck§6e§et§7]"
+主页:
+  物品市场:
+    别名: "物品市场"
+    图标路径: "textures/ui/MashupIcon"
+  我的商品:
+    别名: "我的商品"
+    图标路径: "textures/ui/Friend2"
+  查找商品:
+    别名: "查找商品"
+    图标路径: "textures/ui/magnifyingGlass"
+  黑名单物品:
+    别名: "黑名单物品"
+    图标路径: "textures/blocks/barrier"
+  市场信息:
+    别名: "市场信息"
+    图标路径: "textures/ui/mute_off"
 # 请不要随意修改，否则玩家上架的
 # 物品将不会显示
 
-Custom Class:
-  Block: "textures/blocks/brick"
-  Tool: "textures/items/diamond_pickaxe"
-  Food: "textures/items/bread"
-  Other: "textures/ui/inventory_icon"
+自定义分类:
+  方块: "textures/blocks/brick"
+  工具: "textures/items/diamond_pickaxe"
+  食物: "textures/items/bread"
+  其他: "textures/ui/inventory_icon"
 
 

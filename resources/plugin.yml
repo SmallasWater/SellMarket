@@ -2,14 +2,14 @@ name: SellMarket
 main: market.sMarket
 version: 1.5.8
 api: "1.0.8"
-author: 若水(EarthMCBE Tech)
+author: 若水
 load: POSTWORLD
 loadbefore:
   - AutoUpData
 commands:
   sm:
-    usage: /sm help
-    description: "Sell Market"
+    usage: /sm 帮助
+    description: "交易市场"
     aliases:
-      - Transaction
-      - Market
+      - 交易
+      - 黑市

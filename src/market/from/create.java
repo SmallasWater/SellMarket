@@ -66,13 +66,13 @@ public class create {
 
     /** 主页菜单*/
     public static void sendMenu(Player player){
-        FormWindowSimple simple = new FormWindowSimple(sMarket.PLUGIN_NAME+"--Home page",
-                sMarket.getApi().config.getString("Cunstom Post").replace("{End Line}","\n"));
+        FormWindowSimple simple = new FormWindowSimple(sMarket.PLUGIN_NAME+"--主页",
+                sMarket.getApi().config.getString("自定义公告").replace("{换行}","\n"));
         for(String s:sMarket.menu.keySet()){
             Object obj = sMarket.menu.get(s);
             if(obj instanceof Map){
-                String message = (String) ((Map)obj).get("Alias");
-                String path = (String) ((Map)obj).get("path to icon");
+                String message = (String) ((Map)obj).get("别名");
+                String path = (String) ((Map)obj).get("图标路径");
                 simple.addButton(new ElementButton(message,getImage(path)));
             }else if(obj instanceof String){
                 simple.addButton(new ElementButton(s,getImage((String) sMarket.menu.get(s))));
@@ -84,34 +84,34 @@ public class create {
     /** 玩家设置*/
     static void sendSetting(Player player){
         iTypes item = sMarket.clickItem.get(player);
-        FormWindowCustom custom = new FormWindowCustom(sMarket.PLUGIN_NAME+"--Edit");
-        String s = "§r§lItem Name:"+item.getName()+"\n\n"+
-                  "§r§lItem amount:§a"+item.getCount()+"\n\n"+
-                  "§r§lProduct Description:§r"+item.getMessage()+"\n\n"+
-                  "§r§lCommodity price:§c"+(sMarket.money.getMonetaryUnit()+item.getMoney())+"\n";
+        FormWindowCustom custom = new FormWindowCustom(sMarket.PLUGIN_NAME+"--编辑");
+        String s = "§r§l商品名称: "+item.getName()+"\n\n"+
+                  "§r§l商品数量: §a"+item.getCount()+"\n\n"+
+                  "§r§l商品简介: §r"+item.getMessage()+"\n\n"+
+                  "§r§l商品单价: §c"+(sMarket.money.getMonetaryUnit()+item.getMoney())+"\n";
         custom.addElement(new ElementLabel(s));
-        custom.addElement(new ElementDropdown("Modify classification",Tools.toList(sMarket.sType.keySet().toArray()),Tools.getIntByType(item.type)));
-        custom.addElement(new ElementInput("Shown name","Please modify the name",item.getName()));
-        custom.addElement(new ElementInput("Modify description","Please enter content",item.message));
-        custom.addElement(new ElementInput("Change single project price","Please enter a number",String.valueOf(item.money)));
+        custom.addElement(new ElementDropdown("修改分类",Tools.toList(sMarket.sType.keySet().toArray()),Tools.getIntByType(item.type)));
+        custom.addElement(new ElementInput("显示名称","请修改名称",item.getName()));
+        custom.addElement(new ElementInput("修改简介","请输入内容",item.message));
+        custom.addElement(new ElementInput("修改单价","请输入数值",String.valueOf(item.money)));
         LinkedList<String> list = new LinkedList<>();
         for(int i = 0;i <= item.getCount();i++){
             if(i == 0){
-                list.add("§cRemove items from list");
+                list.add("§c下架物品");
             }else if(i == item.count){
-                list.add("§aItems Unchanged");
+                list.add("§a不改变物品");
             }else{
-                list.add("§bDecrease"+(item.getCount()-i));
+                list.add("§b减少"+(item.getCount()-i)+"个");
             }
         }
 
-        custom.addElement(new ElementStepSlider("Modify the numbers of the item (if you want to increase the number just upload items)",list,item.count));
+        custom.addElement(new ElementStepSlider("修改数量(如果想增加数量上传物品即可)",list,item.count));
         send(player,custom,SETTING);
     }
 
     /** 查找列表*/
     static void sendSeekShow(Player player){
-        FormWindowSimple simple = new FormWindowSimple(sMarket.PLUGIN_NAME+"--Search results","");
+        FormWindowSimple simple = new FormWindowSimple(sMarket.PLUGIN_NAME+"--查询结果","");
         seekSetting setting = sMarket.seekSetting.get(player);
         LinkedList<iTypes> seekItems = new LinkedList<>();
         for(iTypes item:Tools.seekItemById(setting.message,setting.type,setting.sqrt)){
@@ -119,52 +119,52 @@ public class create {
             simple.addButton(getButton(item));
         }
         sMarket.seekItem.put(player,seekItems);
-        simple.setContent("Totally found:"+simple.getButtons().size()+"   Index Setting:"+Tools.getStringBySeekSetting(setting.type)+" §7Index content:  "+setting.message);
+        simple.setContent("共查找到: "+simple.getButtons().size()+" 个  索引设置: "+Tools.getStringBySeekSetting(setting.type)+" §7索引内容: "+setting.message);
         send(player,simple,SEEK_MENU);
     }
 
     private static ElementButton getButton(iTypes item){
         ElementButtonImageData imageData = new ElementButtonImageData("path",ItemIDSunName.getIDByPath(item.getItem()));
-        ElementButton button = new ElementButton(item.getName()+" §7("+item.getId()+")§r"+"\nSingle Item Price:"
-                +(sMarket.money.getMonetaryUnit())+(item.getMoney())+"  "+item.getCount()+" left"+"§e(Click to buy!))");
+        ElementButton button = new ElementButton(item.getName()+" §7("+item.getId()+")§r"+"\n单价: "
+                +(sMarket.money.getMonetaryUnit())+(item.getMoney())+" 剩余:"+item.getCount()+"§e(点击购买)");
         button.addImage(imageData);
         return button;
     }
 
     /** 购买页面*/
     static void sendBuyMenu(Player player){
-        FormWindowCustom custom = new FormWindowCustom(sMarket.PLUGIN_NAME+"--Buy");
+        FormWindowCustom custom = new FormWindowCustom(sMarket.PLUGIN_NAME+"--购买");
         iTypes item = sMarket.clickItem.get(player);
         int count = 0;
         Item item1 = item.getItem();
         if(item1.hasCompoundTag()){
             count = item.getItem().getNamedTag().getAllTags().size();
         }
-        String s = "§r§lItem name:  "+item.getName()+"\n\n"+
-                   "§r§lSeller: "+item.getMaster()+"\n\n"+
-                   "§r§lNBT Tag: §e"+count+"\n\n"+
-                   "§r§lItem Amount: §a"+item.getCount()+"\n\n"+
-                   "§r§lItem Description: §r"+item.getMessage()+"\n\n"+
-                   "§r§lSingle Item Price: §c"+(sMarket.money.getMonetaryUnit()+item.getMoney())+"\n";
+        String s = "§r§l商品名称: "+item.getName()+"\n\n"+
+                   "§r§l出售者: "+item.getMaster()+"\n\n"+
+                   "§r§lNBT标签: §e"+count+"个\n\n"+
+                   "§r§l商品数量: §a"+item.getCount()+"\n\n"+
+                   "§r§l商品简介: §r"+item.getMessage()+"\n\n"+
+                   "§r§l商品单价: §c"+(sMarket.money.getMonetaryUnit()+item.getMoney())+"\n";
         custom.addElement(new ElementLabel(s));
         LinkedList<String> list = new LinkedList<>();
         for(int i = 0;i <= item.getCount();i++){
             if(i == 0){
-                list.add("§cBuy No More");
+                list.add("§c不买了");
             }else if(i == item.count){
-                list.add("§aBuy All Expected to cost "+(sMarket.money.getMonetaryUnit())+(item.getCount() * item.getMoney()));
+                list.add("§a购买全部 预计花费 "+(sMarket.money.getMonetaryUnit())+(item.getCount() * item.getMoney()));
             }else{
-                list.add("§bBuy"+i+" Expected to cost "+(sMarket.money.getMonetaryUnit())+(i * item.getMoney()));
+                list.add("§b购买"+i+"个 预计花费 "+(sMarket.money.getMonetaryUnit())+(i * item.getMoney()));
             }
 
         }
-        custom.addElement(new ElementStepSlider("Purchase quantity",list,0));
+        custom.addElement(new ElementStepSlider("购买数量",list,0));
         send(player,custom,BUY_MENU);
     }
 
     /** 黑名单*/
     static void sendBlack(Player player){
-        FormWindowSimple simple = new FormWindowSimple(sMarket.PLUGIN_NAME+"--BlackList","");
+        FormWindowSimple simple = new FormWindowSimple(sMarket.PLUGIN_NAME+"--黑名单","");
         if(sMarket.banItems.size() > 0){
             StringBuilder builder = new StringBuilder();
             for(banItem item:sMarket.banItems){
@@ -172,28 +172,28 @@ public class create {
             }
             simple.setContent(builder.toString());
         }else{
-            simple.setContent("Temporarily Unavaliable");
+            simple.setContent("暂无");
         }
         send(player,simple,BLACK);
     }
 
     /** 信息*/
     static void sendMessage(Player player){
-        FormWindowSimple simple = new FormWindowSimple(sMarket.PLUGIN_NAME+"--Market Information","");
+        FormWindowSimple simple = new FormWindowSimple(sMarket.PLUGIN_NAME+"--商城信息","");
         StringBuilder builder = new StringBuilder();
-        builder.append("§l§aRegistered User: ");
+        builder.append("§l§a注册用户: ");
         if(sMarket.playerItems.size() > 0){
             builder.append("\n");
             for(String name:sMarket.playerItems.keySet()){
                 Player player1 = Server.getInstance().getPlayer(name);
-                builder.append("§r>>  ").append(name).append(player1!= null?"§a[Online]":"§7[Offline]").append("\n");
+                builder.append("§r>>  ").append(name).append(player1!= null?"§a[在线]":"§7[离线]").append("\n");
             }
         }else{
-            builder.append(" §Temporarily Unavaliable").append("\n");
+            builder.append(" §c暂无").append("\n");
         }
-        builder.append("\n§l§aTotal Amount of Items: §e").append(Tools.getItemsAll().size()).append(" §aleft");
+        builder.append("\n§l§a货物总数: §e").append(Tools.getItemsAll().size()).append(" §a个");
         for(String type:sMarket.sType.keySet()){
-            builder.append("\n§l§a").append(type).append("Type: §e").append(Tools.getItemsByType(type).size()).append(" §aleft");
+            builder.append("\n§l§a").append(type).append("类: §e").append(Tools.getItemsByType(type).size()).append(" §a个");
         }
         simple.setContent(builder.toString());
         send(player,simple,MESSAGE);
@@ -202,39 +202,39 @@ public class create {
     /** 商品列表(类型)*/
     static void sendTypeShow(Player player){
         String t = sMarket.clickPos.get(player);
-        FormWindowSimple simple = new FormWindowSimple(sMarket.PLUGIN_NAME+"--Market("+t+")","");
+        FormWindowSimple simple = new FormWindowSimple(sMarket.PLUGIN_NAME+"--市场("+t+")","");
         for(iTypes items: Tools.getItemsByType(t)){
             simple.addButton(getButton(items));
         }
-        simple.setContent("Current page amount: "+simple.getButtons().size());
+        simple.setContent("当前页数量: "+simple.getButtons().size());
         send(player,simple,TYPES_SHOW);
     }
 
     /** 查找*/
     static void sendSeekItems(Player player){
-        FormWindowCustom custom = new FormWindowCustom(sMarket.PLUGIN_NAME+"--Search");
-        custom.addElement(new ElementLabel("Different search options will affect search results"));
-        custom.addElement(new ElementDropdown("Index settings",Tools.strings,0));
-        custom.addElement(new ElementToggle("Automatic sorting",false));
-        custom.addElement(new ElementInput("Enter Index","Please enter according to the Index settings"));
+        FormWindowCustom custom = new FormWindowCustom(sMarket.PLUGIN_NAME+"--查找");
+        custom.addElement(new ElementLabel("查找的选项不同会影响查找结果"));
+        custom.addElement(new ElementDropdown("索引设置",Tools.strings,0));
+        custom.addElement(new ElementToggle("自动排序",false));
+        custom.addElement(new ElementInput("输入索引","请根据索引设置输入"));
         send(player,custom,SEEK);
     }
 
     /** 我的商品*/
     static void sendItems(Player player){
-        FormWindowSimple simple = new FormWindowSimple(sMarket.PLUGIN_NAME+"--My Items","");
+        FormWindowSimple simple = new FormWindowSimple(sMarket.PLUGIN_NAME+"--我的商品","");
         pItems items = pItems.getInstance(player.getName());
         LinkedList<iTypes> types = items.getAllItems();
         for(iTypes item:types){
             simple.addButton(getButton(item));
         }
-        simple.setContent("Current Amount: "+simple.getButtons().size());
+        simple.setContent("当前数量: "+simple.getButtons().size());
         send(player,simple,CHOSE);
     }
 
     /** 商品分类*/
     static void sendTypes(Player player){
-        FormWindowSimple simple = new FormWindowSimple(sMarket.PLUGIN_NAME+"--classify","");
+        FormWindowSimple simple = new FormWindowSimple(sMarket.PLUGIN_NAME+"--分类","");
         for(String type:sMarket.sType.keySet()){
             simple.addButton(new ElementButton(type,getImage(sMarket.sType.get(type))));
         }
@@ -243,7 +243,7 @@ public class create {
 
     /** 背包选择*/
     public static void sendAddInventory(Player player){
-        FormWindowSimple simple = new FormWindowSimple(sMarket.PLUGIN_NAME+"--Sold Item Selection","");
+        FormWindowSimple simple = new FormWindowSimple(sMarket.PLUGIN_NAME+"--上架选择","");
         LinkedList<Item> items = new LinkedList<>(player.getInventory().getContents().values());
         for (Item item:items){
             ElementButton button = new ElementButton(ItemIDSunName.getIDByName(item)+" §7("+item.getId()+":"+item.getDamage()+")"+" * §a"+item.getCount());
@@ -258,33 +258,33 @@ public class create {
     public static void sendAddSetting(Player player){
         FormWindowCustom custom = new FormWindowCustom(sMarket.PLUGIN_NAME+"--上架");
         Item hand = sMarket.handItem.get(player);
-        String message = "§l§aItems on the market: §r"+ ItemIDSunName.getIDByName(hand)+" §7("+hand.getId()+":"+hand.getDamage()+")§r"+"\n\n"+
-                         "§l§aCurrent Amount: §r§4"+hand.getCount();
+        String message = "§l§a上架物品: §r"+ ItemIDSunName.getIDByName(hand)+" §7("+hand.getId()+":"+hand.getDamage()+")§r"+"\n\n"+
+                         "§l§a当前数量: §r§4"+hand.getCount();
         custom.addElement(new ElementLabel(message));
         //分类
         int diy = 0;
         if(hand.isTool() || hand.isArmor()){
             diy = 1;
         }
-        custom.addElement(new ElementDropdown("§l§eItem classify",Tools.toList(sMarket.sType.keySet().toArray()),diy));
-        custom.addElement(new ElementInput("§l§ePlease enter description","Please enter contents","On Sale!"));
-        custom.addElement(new ElementInput("§l§ePlease set single item price","Please enter a number","10.0"));
+        custom.addElement(new ElementDropdown("§l§e物品分类",Tools.toList(sMarket.sType.keySet().toArray()),diy));
+        custom.addElement(new ElementInput("§l§e请设置简介","请输入内容","很便宜哦"));
+        custom.addElement(new ElementInput("§l§e请设置单价","请输入数值","10.0"));
         LinkedList<String> strings = new LinkedList<>();
         for(int i = 0;i <= hand.count;i++){
             if(i == 0){
-                strings.add("§cRefused to be put on market");
+                strings.add("§c拒绝上架");
             }else if(i == hand.count){
-                strings.add("§aPut all on to market");
+                strings.add("§a上架全部");
             }else{
-                strings.add("§bPut on market"+i);
+                strings.add("§b上架"+i+"个");
             }
         }
-        custom.addElement(new ElementStepSlider("§l§ePlease set the amount that will be on the market",strings,hand.count));
+        custom.addElement(new ElementStepSlider("§l§e请设置上架数量",strings,hand.count));
         send(player,custom,UPDATA);
     }
 
     public static void sendBill(Player player,String s){
-        FormWindowSimple simple = new FormWindowSimple(sMarket.PLUGIN_NAME+"--Bill","");
+        FormWindowSimple simple = new FormWindowSimple(sMarket.PLUGIN_NAME+"--账单","");
         simple.setContent(s);
         send(player,simple,BILL);
     }
