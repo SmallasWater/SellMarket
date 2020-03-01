@@ -51,13 +51,13 @@ public class create {
     static final int BUY_MENU = 0xAAA0010;
 
     /** 黑名单*/
-    private static final int BLACK = 0xAAA0011;
+    static final int BLACK = 0xAAA0011;
 
     /** 物品信息*/
-    private static final int MESSAGE = 0xAAA0012;
+    static final int MESSAGE = 0xAAA0012;
 
     /** 账单*/
-    private static final int BILL = 0xAAA0013;
+    static final int BILL = 0xAAA0013;
 
     /** 账单*/
     static final int ADD_INVENTORY = 0xAAA0014;
@@ -118,6 +118,7 @@ public class create {
             seekItems.add(item);
             simple.addButton(getButton(item));
         }
+        simple.addButton(getBackButton());
         sMarket.seekItem.put(player,seekItems);
         simple.setContent("共查找到: "+simple.getButtons().size()+" 个  索引设置: "+Tools.getStringBySeekSetting(setting.type)+" §7索引内容: "+setting.message);
         send(player,simple,SEEK_MENU);
@@ -174,6 +175,7 @@ public class create {
         }else{
             simple.setContent("暂无");
         }
+        simple.addButton(getBackButton());
         send(player,simple,BLACK);
     }
 
@@ -195,6 +197,7 @@ public class create {
         for(String type:sMarket.sType.keySet()){
             builder.append("\n§l§a").append(type).append("类: §e").append(Tools.getItemsByType(type).size()).append(" §a个");
         }
+        simple.addButton(getBackButton());
         simple.setContent(builder.toString());
         send(player,simple,MESSAGE);
     }
@@ -207,6 +210,7 @@ public class create {
             simple.addButton(getButton(items));
         }
         simple.setContent("当前页数量: "+simple.getButtons().size());
+        simple.addButton(getBackButton());
         send(player,simple,TYPES_SHOW);
     }
 
@@ -229,6 +233,7 @@ public class create {
             simple.addButton(getButton(item));
         }
         simple.setContent("当前数量: "+simple.getButtons().size());
+        simple.addButton(getBackButton());
         send(player,simple,CHOSE);
     }
 
@@ -238,6 +243,7 @@ public class create {
         for(String type:sMarket.sType.keySet()){
             simple.addButton(new ElementButton(type,getImage(sMarket.sType.get(type))));
         }
+        simple.addButton(getBackButton());
         send(player,simple,TYPES);
     }
 
@@ -300,5 +306,9 @@ public class create {
 
     private static void send(Player player, FormWindow window, int id){
         player.showFormWindow(window,id);
+    }
+
+    private static ElementButton getBackButton(){
+        return new ElementButton("返回上一级",new ElementButtonImageData("path","textures/ui/refresh_light"));
     }
 }

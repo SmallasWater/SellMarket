@@ -20,6 +20,7 @@ import updata.utils.UpData;
 import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 
@@ -169,8 +170,8 @@ public class sMarket extends PluginBase {
         return new LinkedList<>();
     }
 
-    private LinkedList<String>getAdmins() {
-        return new LinkedList<>(adminConfig.getStringList("ops"));
+    private List<String> getAdmins() {
+        return adminConfig.getStringList("ops");
     }
 
     private LinkedList<String>getBanPlayers() {
@@ -185,8 +186,8 @@ public class sMarket extends PluginBase {
         return getBanPlayers().contains(name);
     }
 
-    private LinkedList<String>getAdminsMenus() {
-        return new LinkedList<>(adminMenu.getStringList("AdminMenu"));
+    private List<String>getAdminsMenus() {
+        return adminMenu.getStringList("AdminMenu");
     }
 
     public boolean isAdminMenu(String name){
@@ -195,7 +196,7 @@ public class sMarket extends PluginBase {
 
 
     private void changeAdmin(String name){
-        LinkedList<String> strings = getAdmins();
+        List<String> strings = getAdmins();
         if(strings.contains(name)){
             strings.remove(name);
         }else {

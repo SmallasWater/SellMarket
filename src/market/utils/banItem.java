@@ -57,21 +57,25 @@ public class banItem {
 
 
 
-    public boolean equals(banItem itemClass) {
-        if (item.hasCompoundTag() || itemClass.getItem().hasCompoundTag()) {
-            Item item1 = itemClass.getItem();
-            CompoundTag tag1 = item1.getNamedTag();
-            CompoundTag tag2 = item.getNamedTag();
-            if(item != null){
-                if(tag1 != null && tag2 != null){
-                    if(tag1.equals(tag2)){
-                        return item1.getId() == item.getId() && item1.getDamage() == item.getDamage();
+    @Override
+    public boolean equals(Object itemClass) {
+        if(itemClass instanceof banItem){
+            if (item.hasCompoundTag() || ((banItem) itemClass).getItem().hasCompoundTag()) {
+                Item item1 = ((banItem) itemClass).getItem();
+                CompoundTag tag1 = item1.getNamedTag();
+                CompoundTag tag2 = item.getNamedTag();
+                if(item != null){
+                    if(tag1 != null && tag2 != null){
+                        if(tag1.equals(tag2)){
+                            return item1.getId() == item.getId() && item1.getDamage() == item.getDamage();
+                        }
                     }
                 }
+            } else {
+                return (item.getId() + ":" + item.getDamage()).equals(((banItem) itemClass).item.getId() + ":" + ((banItem) itemClass).item.getDamage());
             }
-        } else {
-            return (item.getId() + ":" + item.getDamage()).equals(itemClass.item.getId() + ":" + itemClass.item.getDamage());
         }
+
         return false;
     }
 

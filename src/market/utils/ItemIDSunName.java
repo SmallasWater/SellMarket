@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-/**鸣谢:
+/**
  * @author Winfxk
  * @author Anders233
- * 这两位大佬的贡献
+ *
  */
 public enum ItemIDSunName {
     /**
